@@ -250,9 +250,9 @@ const BUILTIN_POWERS={
  "magic-power":{name:"Magic domain power",passive:true,source:"Magic domain granted power · Player’s Handbook p. 187",effect:()=>`Always active: use spell completion and spell trigger items (scrolls, wands, staffs) as a wizard of level ${Math.max(1,Math.floor(characterLevel()/2))} (half your cleric level, minimum 1st).`}
 };
 let tab="cleric", selected=null;
-let state={prepared:[],favorites:[],character:{level:5,wisdom:23},innate:null,innateUsed:{}};
+let state={prepared:[],favorites:[],character:{level:6,wisdom:23},innate:null,innateUsed:{}};
 try { const saved=window.localStorage.getItem("caelianSpellbook"); if(saved) state={...state,...JSON.parse(saved)}; } catch(e) {}
-state.prepared=Array.isArray(state.prepared)?state.prepared:[]; state.favorites=Array.isArray(state.favorites)?state.favorites:[]; state.character={...{level:5,wisdom:23},...(state.character||{})};
+state.prepared=Array.isArray(state.prepared)?state.prepared:[]; state.favorites=Array.isArray(state.favorites)?state.favorites:[]; state.character={...{level:6,wisdom:23},...(state.character||{})};
 state.innateUsed=(state.innateUsed&&typeof state.innateUsed==="object"&&!Array.isArray(state.innateUsed))?state.innateUsed:{};
 const hadSavedInnate=Array.isArray(state.innate);
 state.innate=hadSavedInnate?state.innate.filter(e=>e&&typeof e==="object").map((e,i)=>({id:String(e.id||("innate-"+Date.now()+"-"+i)),n:String(e.n||""),usesPerDay:Math.max(1,Math.min(20,parseInt(e.usesPerDay,10)||1)),note:String(e.note||""),custom:!!e.custom,passive:!!e.passive,builtin:BUILTIN_POWERS[e.builtin]?e.builtin:undefined})):[];
