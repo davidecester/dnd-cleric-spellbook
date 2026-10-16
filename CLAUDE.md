@@ -41,6 +41,7 @@ Ask the user which version or book to use if a domain appears in more than one, 
 - Core domains (Law, Good, Protection, Magic, Earth): Player's Handbook / D&D 3.5 SRD (d20srd.org). Spell cards link to `https://www.d20srd.org/srd/spells/<name>.htm`.
 - Balance: *Spell Compendium* (granted power cited as p. 271). Spells with a `ref` starting "Spell Compendium" link to the book page in `spellReference()`.
 - Inquisition: *Complete Divine* / *Spell Compendium*. Nature and Earth (Faerûn): *Forgotten Realms Campaign Setting* / *Player's Guide to Faerûn*.
+- The user's reference for the Faerûn domains is Realms Help. Nature: https://www.realmshelps.net/deities/domain/Nature_(Shaman). Earth is on the same site under `/deities/domain/`. These cloud sessions can't reach the site unless the environment's network policy allows `www.realmshelps.net`. If it's blocked, ask the user to paste the granted power and spell list.
 - Check the actual book for each domain's granted power and its 1st–9th level spell list before coding it. Don't guess. Write spell descriptions in this sheet's own words, as the existing ones are.
 
 ### Changing a domain: everything to update
