@@ -27,6 +27,40 @@ Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric, Magic + B
 - Use the `icon(name, size)` helper and `ICON_PATHS` at the top of `js/app.js` (16×16 viewBox, `currentColor`), and add new icons there. Use `inlineIcon(name)` inside running text.
 - Icon-only buttons need an `aria-label`. The SVG itself is `aria-hidden`. Center icons with `display:grid; place-items:center` (or inline-flex), not `line-height`.
 
+## Character domains
+
+Caelian's **current domains: Magic + Balance.** A cleric has two domains. They can only be swapped for domains on these allowed lists (the user's Italian names in brackets):
+
+- **Deity-concept domains**: Law (legge), Good (bene), Protection (protezione), Inquisition (inquisizione). These are for Caelian's own deity concept. The campaign uses divine shards and lets characters ascend to godhood.
+- **Worshipped deity's domains**: Nature (natura), Magic (magia), Balance (equilibrio), Earth (terra). These come from the deity Caelian worships as a cleric. The user says Nature and Earth are the Faerûn (Forgotten Realms) versions.
+
+Ask the user which version or book to use if a domain appears in more than one, e.g. Earth is also in the PHB.
+
+### Where domain rules come from
+
+- Core domains (Law, Good, Protection, Magic, Earth): Player's Handbook / D&D 3.5 SRD (d20srd.org). Spell cards link to `https://www.d20srd.org/srd/spells/<name>.htm`.
+- Balance: *Spell Compendium* (granted power cited as p. 271). Spells with a `ref` starting "Spell Compendium" link to the book page in `spellReference()`.
+- Inquisition: *Complete Divine* / *Spell Compendium*. Nature and Earth (Faerûn): *Forgotten Realms Campaign Setting* / *Player's Guide to Faerûn*.
+- The user's reference for the Faerûn domains is Realms Help. Nature: https://www.realmshelps.net/deities/domain/Nature_(Shaman). Earth is on the same site under `/deities/domain/`. These cloud sessions can't reach the site unless the environment's network policy allows `www.realmshelps.net`. If it's blocked, ask the user to paste the granted power and spell list.
+- Check the actual book for each domain's granted power and its 1st–9th level spell list before coding it. Don't guess. Write spell descriptions in this sheet's own words, as the existing ones are.
+
+### Changing a domain: everything to update
+
+Domains are hardcoded by name. Swapping one means updating all of these:
+
+- `js/spells.js`: the `DATA.<domain>` spell list (levels 1–9) and its `ref`s.
+- `js/app.js`:
+  - spell detail entries keyed `"<domain>|<level>|<Spell>"`
+  - `BUILTIN_POWERS` and `DOMAIN_POWER_ORDER` (the granted power, uses per day, and the source citation)
+  - `sourceLabel`
+  - the source switch in `allSpells`
+  - every `allSpells("magic"),allSpells("balance")` concatenation
+  - the domain-slot notes that say "Magic and Balance"
+  - the empty-state text in Prepared Today
+- `index.html`: the header badges, the domain tabs (`data-tab`), and the "Granted powers from your Magic and Balance domains" notes (desktop and mobile).
+- `README.md`: the domain names and sources.
+- Saved `localStorage` keys use `"<domain>|level|Spell"`. Prepared or favorited spells from a removed domain become orphaned, so drop them on load.
+
 ## Rules accuracy
 
 Game mechanics must follow D&D 3.5 rules as written (RAW). Don't add hardcoded per-character or per-level adjustments. If something looks off-table, tell the user what it does and where before removing it.
