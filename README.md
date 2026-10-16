@@ -1,6 +1,6 @@
 # Caelian Cleric Spellbook
 
-A responsive, standalone D&D 3.5 Cleric spellbook for Caelian Vàel, an Aasimar cleric of the Magic and Balance domains. It includes the full Cleric, Magic Domain, and Balance Domain spell lists, preparation tracking, bookmarks, spell details, and editable Cleric level and Wisdom values.
+A responsive, standalone D&D 3.5 Cleric spellbook for Caelian Vàel, an Aasimar cleric of the Magic and Balance domains. It includes the full Cleric, Magic Domain, and Balance Domain spell lists, preparation tracking, bookmarks, spell details, and editable Cleric level, Wisdom and Charisma values.
 
 ## Features
 
@@ -17,6 +17,6 @@ Open `index.html` in a modern browser. No install, build step, or server is requ
 
 ## Notes
 
-- Prepared spells, bookmarks, innate spells, level, and Wisdom are saved in the browser when local storage is available.
+- Prepared spells, bookmarks, innate spells, level, Wisdom and Charisma are saved in the browser when local storage is available.
 - The spellbook works offline. Text uses the system font (SF Pro on Apple devices); other devices load Geist when online and use their system font offline. Rules-reference links need an internet connection.
 - Spell descriptions are written in the sheet's own words. Balance Domain spells come from *Spell Compendium*; core spells come from the D&D 3.5 SRD.

@@ -262,9 +262,9 @@ const BUILTIN_POWERS={
  "magic-power":{name:"Magic domain power",passive:true,source:"Magic domain granted power · Player’s Handbook p. 187",effect:()=>`Always active: use spell completion and spell trigger items (scrolls, wands, staffs) as a wizard of level ${Math.max(1,Math.floor(characterLevel()/2))} (half your cleric level, minimum 1st).`}
 };
 let tab="cleric", selected=null;
-let state={prepared:[],favorites:[],character:{level:6,wisdom:23},innate:null,innateUsed:{}};
+let state={prepared:[],favorites:[],character:{level:6,wisdom:23,charisma:14},innate:null,innateUsed:{}};
 try { const saved=window.localStorage.getItem("caelianSpellbook"); if(saved) state={...state,...JSON.parse(saved)}; } catch(e) {}
-state.prepared=Array.isArray(state.prepared)?state.prepared:[]; state.favorites=Array.isArray(state.favorites)?state.favorites:[]; state.character={...{level:6,wisdom:23},...(state.character||{})};
+state.prepared=Array.isArray(state.prepared)?state.prepared:[]; state.favorites=Array.isArray(state.favorites)?state.favorites:[]; state.character={...{level:6,wisdom:23,charisma:14},...(state.character||{})};
 state.innateUsed=(state.innateUsed&&typeof state.innateUsed==="object"&&!Array.isArray(state.innateUsed))?state.innateUsed:{};
 const hadSavedInnate=Array.isArray(state.innate);
 state.innate=hadSavedInnate?state.innate.filter(e=>e&&typeof e==="object").map((e,i)=>({id:String(e.id||("innate-"+Date.now()+"-"+i)),n:String(e.n||""),usesPerDay:Math.max(1,Math.min(20,parseInt(e.usesPerDay,10)||1)),note:String(e.note||""),custom:!!e.custom,passive:!!e.passive,builtin:BUILTIN_POWERS[e.builtin]?e.builtin:undefined})):[];
@@ -339,6 +339,8 @@ function bindQty(node,s){node.querySelectorAll("[data-qty]").forEach(button=>but
 function characterLevel(){return state.character.level;}
 function wisdom(){return state.character.wisdom;}
 function wisdomModifier(){return Math.floor((wisdom()-10)/2);}
+function charisma(){return state.character.charisma;}
+function charismaModifier(){return Math.floor((charisma()-10)/2);}
 function bonusSpells(level){const modifier=wisdomModifier();return level>0&&modifier>=level?1+Math.floor((modifier-level)/4):0;}
 function slotInfo(level){const base=(BASE_CLERIC_SLOTS[characterLevel()-1]||[])[level]||0;if(!base||wisdom()<10+level)return {normal:0,domain:0};return {normal:base+bonusSpells(level),domain:level>0?1:0};}
 function activeSpellLevels(){return Array.from({length:10},(_,level)=>level).filter(level=>slotInfo(level).normal>0);}
@@ -421,15 +423,15 @@ function toggleFavorite(s){const spellKey=key(s.source,s.l,s.n),index=state.favo
 function updateBadge(){document.getElementById("preparedBadge").textContent=state.prepared.length+" prepared";}
 function syncCharacterUI(){
  const subtitle=document.querySelector(".title p"),note=document.querySelector(".settings .meta"),mobileNote=document.getElementById("mobileCharacterNote");
- ["charLevel","mobileCharLevel"].forEach(id=>document.getElementById(id).value=characterLevel());["wis","mobileWis"].forEach(id=>document.getElementById(id).value=wisdom());subtitle.textContent=`D&D 3.5 · Cleric ${characterLevel()} · Wisdom ${wisdom()} (${wisdomModifier()>=0?"+":""}${wisdomModifier()})`;
- const text=`Slots and spell DCs update from Cleric level and Wisdom.`;note.textContent=text;mobileNote.textContent=text;
+ ["charLevel","mobileCharLevel"].forEach(id=>document.getElementById(id).value=characterLevel());["wis","mobileWis"].forEach(id=>document.getElementById(id).value=wisdom());["cha","mobileCha"].forEach(id=>document.getElementById(id).value=charisma());subtitle.textContent=`D&D 3.5 · Cleric ${characterLevel()} · Wisdom ${wisdom()} (${wisdomModifier()>=0?"+":""}${wisdomModifier()})`;
+ const text=`Slots and spell DCs update from Cleric level and Wisdom. Charisma sets uses per day for domain powers that scale with it.`;note.textContent=text;mobileNote.textContent=text;
 }
 function slotSummaryHTML(){const levels=activeSpellLevels();return levels.map(level=>{const info=slotInfo(level);return `<div class="slotline"><span>${level===0?"Orisons":ordinal(level)+" level"}</span><b>${slotsUsed(level,false)}/${info.normal}${info.domain?` · ${slotsUsed(level,true)}/1 D`:""}</b></div>`;}).join("")+`<div class="slotline"><span>Spell DCs</span><b>Listed by level</b></div>`+levels.map(level=>`<div class="slotline"><span>DC · ${level===0?"0-level":ordinal(level)}</span><b>${spellDC(level)}</b></div>`).join("")+`<div class="slotline"><span>Caster level</span><b>${characterLevel()}</b></div>`;}
 function updateSlots(){syncCharacterUI();const html=slotSummaryHTML();document.getElementById("slots").innerHTML=html;document.getElementById("mobileSlots").innerHTML=html;renderInnate();}
 function applyCharacterChanges(event){
- const levelInput=document.getElementById("charLevel"),wisInput=document.getElementById("wis"),source=event&&event.currentTarget&&event.currentTarget.id.startsWith("mobile"),mobileLevel=document.getElementById("mobileCharLevel"),mobileWis=document.getElementById("mobileWis");
- if(source){levelInput.value=mobileLevel.value;wisInput.value=mobileWis.value;}
- state.character.level=Math.min(20,Math.max(1,Number.parseInt(levelInput.value,10)||1));state.character.wisdom=Math.min(60,Math.max(1,Number.parseInt(wisInput.value,10)||1));save();render();if(selected)openSpell(selected);
+ const levelInput=document.getElementById("charLevel"),wisInput=document.getElementById("wis"),chaInput=document.getElementById("cha"),source=event&&event.currentTarget&&event.currentTarget.id.startsWith("mobile"),mobileLevel=document.getElementById("mobileCharLevel"),mobileWis=document.getElementById("mobileWis"),mobileCha=document.getElementById("mobileCha");
+ if(source){levelInput.value=mobileLevel.value;wisInput.value=mobileWis.value;chaInput.value=mobileCha.value;}
+ state.character.level=Math.min(20,Math.max(1,Number.parseInt(levelInput.value,10)||1));state.character.wisdom=Math.min(60,Math.max(1,Number.parseInt(wisInput.value,10)||1));state.character.charisma=Math.min(60,Math.max(1,Number.parseInt(chaInput.value,10)||1));save();render();if(selected)openSpell(selected);
 }
 // Closing the pop-up keeps the spell in the desktop side panel as a reference.
 function closeModal(){const modal=document.getElementById("modal");modal.classList.remove("show");modal.setAttribute("aria-hidden","true");}
@@ -437,7 +439,7 @@ function closeModal(){const modal=document.getElementById("modal");modal.classLi
 function clearDetail(){closeModal();selected=null;document.getElementById("detail").innerHTML=DETAIL_EMPTY;}
 document.querySelectorAll(".tab").forEach(button=>button.onclick=()=>{closeModal();document.querySelectorAll(".tab").forEach(item=>item.classList.remove("active"));button.classList.add("active");tab=button.dataset.tab;document.getElementById("levelFilter").value="all";document.getElementById("preparedFilter").value="all";render();});
 ["search","levelFilter","preparedFilter"].forEach(id=>{const input=document.getElementById(id);input.oninput=render;input.onchange=render;});
-["charLevel","wis","mobileCharLevel","mobileWis"].forEach(id=>{const input=document.getElementById(id);input.onchange=applyCharacterChanges;});
+["charLevel","wis","cha","mobileCharLevel","mobileWis","mobileCha"].forEach(id=>{const input=document.getElementById(id);input.onchange=applyCharacterChanges;});
 function closeMobileTools(){document.getElementById("mobileToolsDrawer").classList.remove("show");document.getElementById("mobileToolsBackdrop").classList.remove("show");document.getElementById("mobileToolsDrawer").setAttribute("aria-hidden","true");document.getElementById("mobileToolsButton").setAttribute("aria-expanded","false");}
 function openMobileTools(){document.getElementById("mobileToolsDrawer").classList.add("show");document.getElementById("mobileToolsBackdrop").classList.add("show");document.getElementById("mobileToolsDrawer").setAttribute("aria-hidden","false");document.getElementById("mobileToolsButton").setAttribute("aria-expanded","true");}
 document.getElementById("mobileToolsButton").onclick=openMobileTools;document.getElementById("mobileToolsClose").onclick=closeMobileTools;document.getElementById("mobileToolsBackdrop").onclick=closeMobileTools;

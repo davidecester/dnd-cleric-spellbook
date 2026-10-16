@@ -6,7 +6,7 @@ Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric, Magic + B
 
 - `index.html`: page shell. Loads `css/styles.css`, `js/spells.js`, `js/app.js`.
 - `js/spells.js`: `DATA` object with the Cleric, Magic domain, and Balance domain spell lists.
-- `js/app.js`: all app logic (slots, preparation, innate spells, domain powers, rendering). State is saved to `localStorage` under `caelianSpellbook`.
+- `js/app.js`: all app logic (slots, preparation, innate spells, domain powers, rendering). State is saved to `localStorage` under `caelianSpellbook`. Character settings (Cleric level, Wisdom, Charisma) live in `state.character`, with inputs on desktop (`charLevel`, `wis`, `cha`) and mobile (`mobileCharLevel`, `mobileWis`, `mobileCha`).
 
 ## Git workflow
 
@@ -44,7 +44,7 @@ Decided versions (ask the user before changing these):
 - **Earth**: the Faerûn Earth domain is identical to the PHB one, so use the PHB/SRD.
   - Granted power: turn or destroy air creatures as a good cleric turns undead, and rebuke or command earth creatures as an evil cleric rebukes undead. 3 + Cha modifier uses per day.
   - Spells: 1 Magic Stone, 2 Soften Earth and Stone, 3 Stone Shape, 4 Spike Stones, 5 Wall of Stone, 6 Stoneskin, 7 Earthquake, 8 Iron Body, 9 Elemental Swarm (earth only).
-- Most likely next swap: Magic → Earth. Both granted powers above scale with Charisma, so ask for Caelian's Cha score before coding one.
+- Most likely next swap: Magic → Earth. Both granted powers above scale with Charisma. Use `charismaModifier()` in `js/app.js` (Charisma is an editable setting, default 14), never a hardcoded number.
 
 ### Where domain rules come from
 
