@@ -21,6 +21,12 @@ Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric, Magic + B
 - Run `node --check js/app.js` and `node --check js/spells.js`.
 - Whenever `css/styles.css`, `js/spells.js` or `js/app.js` changes, bump the `?v=` cache-busting string on all three in `index.html` (format `YYYYMMDD-N`, e.g. `20260926-2`).
 
+## UI conventions
+
+- Icons are always inline SVG, never text glyphs or emoji (no `×`, `★`, `☆`, `−`, `+`, `→`, `↗` used as icons). Text glyphs center differently on each device's font.
+- Use the `icon(name, size)` helper and `ICON_PATHS` at the top of `js/app.js` (16×16 viewBox, `currentColor`), and add new icons there. Use `inlineIcon(name)` inside running text.
+- Icon-only buttons need an `aria-label`. The SVG itself is `aria-hidden`. Center icons with `display:grid; place-items:center` (or inline-flex), not `line-height`.
+
 ## Rules accuracy
 
 Game mechanics must follow D&D 3.5 rules as written (RAW). Don't add hardcoded per-character or per-level adjustments. If something looks off-table, tell the user what it does and where before removing it.

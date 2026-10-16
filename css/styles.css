@@ -68,7 +68,7 @@ main{max-width:1280px;margin:22px auto 40px;padding:0 20px}
 .spellname{font:500 19px/1.25 var(--serif);color:var(--ink)}
 .meta{font-size:14.5px;line-height:1.4;color:var(--muted);margin-top:3px}
 .spellname,.meta{overflow-wrap:anywhere}
-.star{width:40px;height:40px;display:grid;place-items:center;background:none;border:0;border-radius:999px;color:#5d6170;font-size:19px}
+.star{width:40px;height:40px;display:grid;place-items:center;background:none;border:0;border-radius:999px;color:#5d6170;line-height:0}
 .star:hover{background:var(--surface-2);color:var(--ink-2)}
 .star.on{color:var(--gold)}
 .empty{color:var(--muted);padding:28px 20px;text-align:center;background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--r-lg)}
@@ -90,7 +90,10 @@ aside{display:grid;gap:18px}
 .reference:hover{color:var(--ink);border-bottom-color:var(--ink)}
 .statusline{margin:8px 0 0;color:var(--muted);font-size:14.5px}
 .close{float:right;display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--ink);border-radius:999px;line-height:0;padding:0}
-.close svg{display:block}
+.icon{display:block;flex:none}
+.icon-inline{display:inline-block;vertical-align:-0.15em}
+.bookmark-note strong{display:flex;padding-top:3px}
+.action{display:inline-flex;align-items:center;justify-content:center;gap:8px}
 
 .today h3,.settings h3{font-size:21px;margin:0 0 12px}
 .settings h3+.settingsrow{margin-top:0}
@@ -240,7 +243,7 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .settings .innate-card .meta{margin-top:0}
 /* Prepared-copies stepper */
 .qty{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--gold-line);border-radius:999px;padding:2px;background:var(--gold-soft)}
-.qty-btn{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:999px;background:transparent;color:var(--gold-ink);font-size:19px;line-height:1;cursor:pointer}
+.qty-btn{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:999px;background:transparent;color:var(--gold-ink);line-height:0;padding:0;cursor:pointer}
 .qty-btn:hover:not(:disabled){background:var(--surface-2)}
 .qty-btn:disabled{color:var(--muted);opacity:.45;cursor:default}
 .qty-n{min-width:30px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums;color:var(--gold-ink)}
