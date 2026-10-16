@@ -89,7 +89,8 @@ aside{display:grid;gap:18px}
 .reference{display:inline-flex;gap:6px;align-items:center;margin-top:10px;color:var(--silver);font-weight:700;text-decoration:none;border-bottom:1px solid var(--silver-line)}
 .reference:hover{color:var(--ink);border-bottom-color:var(--ink)}
 .statusline{margin:8px 0 0;color:var(--muted);font-size:14.5px}
-.close{float:right;width:36px;height:36px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--ink);border-radius:999px;font-size:20px;line-height:1;padding:0}
+.close{float:right;display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--ink);border-radius:999px;line-height:0;padding:0}
+.close svg{display:block}
 
 .today h3,.settings h3{font-size:21px;margin:0 0 12px}
 .settings h3+.settingsrow{margin-top:0}
