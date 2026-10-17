@@ -9,8 +9,9 @@
   --silver:#a9bedf;--silver-soft:rgba(169,190,223,.13);--silver-line:rgba(169,190,223,.45);
   --red:#e8837a;--red-soft:rgba(232,131,122,.12);
   /* One color per allowed domain. Rows use it at low opacity so text stays legible. */
-  --dom-magic:#b592f2;--dom-balance:#5ec4b6;--dom-earth:#d4925e;--dom-nature:#86c46e;
-  --dom-law:#78a6ea;--dom-good:#e9dc8c;--dom-protection:#9fb4cb;--dom-inquisition:#e57a90;
+  /* Chosen to stay clearly apart from each other and from the UI's gold (Cleric, prepared) and red (used up). */
+  --dom-magic:#a77cf6;--dom-balance:#40d0a8;--dom-earth:#c6844c;--dom-nature:#9ccf5e;
+  --dom-law:#4f93ea;--dom-good:#74d0f2;--dom-protection:#e8a4d8;--dom-inquisition:#ec649e;
   --serif:-apple-system,BlinkMacSystemFont,"Geist","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --sans:-apple-system,BlinkMacSystemFont,"Geist","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --r-lg:16px;--r-md:12px;--r-sm:8px;
