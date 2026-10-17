@@ -1,15 +1,16 @@
 # Caelian Cleric Spellbook
 
-A responsive, standalone D&D 3.5 Cleric spellbook for Caelian Vàel, an Aasimar cleric of the Magic and Balance domains. It includes the full Cleric, Magic Domain, and Balance Domain spell lists, preparation tracking, bookmarks, spell details, and editable Cleric level, Wisdom and Charisma values.
+A responsive, standalone D&D 3.5 Cleric spellbook for Caelian Vàel, an Aasimar cleric (Magic and Balance domains by default). It includes the full Cleric spell list, the spell lists of every domain Caelian can choose, preparation tracking, bookmarks, spell details, and editable Cleric level, Wisdom and Charisma values.
 
 ## Features
 
 - Full stat blocks for every spell (casting time, range, target, duration, save, spell resistance, components), plus a quick summary and a full description in plain language. The rules reference link is kept on each card for edge cases.
 - Preparation tracking with Cleric and domain slots, calculated from Cleric level and Wisdom, and spell save DCs by level.
+- Domain settings: swap either domain, or add an optional third, from Nature, Magic, Balance, Earth, Law, Good, Protection and Inquisition. Tabs, colours, domain powers and preparation follow the choice. A third domain is not standard for a plain cleric; the settings say so, and it still uses the one domain slot per spell level.
 - Innate spells: racial spell-like abilities, cast like spells (default: Aasimar *daylight* 1/day). Choose the spell, uses per day, and a note in Character settings.
-- Domain powers: the Balance power (1/day, add Wisdom modifier to AC for 1 round per cleric level) and the always-active Magic power (use scrolls and wands as a wizard of half your cleric level). Values update from Cleric level and Wisdom.
+- Domain powers for each chosen domain, e.g. the Balance power (1/day, add Wisdom modifier to AC for 1 round per cleric level) or the Earth power (3 + Charisma modifier uses per day). Values update from Cleric level, Wisdom and Charisma.
 - Innate spells and domain powers track their own daily uses and are not reset by clearing prepared spells.
-- Colour-coded lists: gold for Cleric spells and preparation, silver-blue for domain spells.
+- Colour-coded: gold for Cleric spells and preparation; each domain has its own colour for its tab, badge, prepared spells and power card.
 
 ## Use locally
 
@@ -17,6 +18,6 @@ Open `index.html` in a modern browser. No install, build step, or server is requ
 
 ## Notes
 
-- Prepared spells, bookmarks, innate spells, level, Wisdom and Charisma are saved in the browser when local storage is available.
+- Prepared spells, bookmarks, domains, innate spells, level, Wisdom and Charisma are saved in the browser when local storage is available.
 - The spellbook works offline. Text uses the system font (SF Pro on Apple devices); other devices load Geist when online and use their system font offline. Rules-reference links need an internet connection.
-- Spell descriptions are written in the sheet's own words. Balance Domain spells come from *Spell Compendium*; core spells come from the D&D 3.5 SRD.
+- Spell descriptions are written in the sheet's own words. Balance Domain spells come from *Spell Compendium*; Nature (Shaman) 1st–5th level spells come from *Oriental Adventures* and only have a short summary; everything else comes from the D&D 3.5 SRD.
