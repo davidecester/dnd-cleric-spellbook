@@ -7,7 +7,7 @@
 <title>Caelian Vàel · Cleric Spellbook</title>
 <meta name="description" content="Caelian Vàel's D&D 3.5 Cleric spellbook.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&display=swap">
-<link rel="stylesheet" href="css/styles.css?v=20261016-4">
+<link rel="stylesheet" href="css/styles.css?v=20261017-1">
 <style>
 .header-tools{align-items:center;justify-content:center;width:2.5rem;height:2.5rem;padding:0;line-height:1;}
 .settings-icon{display:block;width:1.25rem;height:1.25rem;flex:0 0 auto;fill:currentColor;}
@@ -19,7 +19,7 @@
 <div class="badges"><span class="badge">Magic</span><span class="badge">Balance</span><span class="badge" id="preparedBadge">0 prepared</span><button class="header-tools" id="mobileToolsButton" type="button" aria-label="Edit character and slots" aria-controls="mobileToolsDrawer" aria-expanded="false" title="Edit character and slots"><svg class="settings-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1a7.14 7.14 0 0 0-1.69-.98L14.5 2.42A.49.49 0 0 0 14.01 2h-4a.49.49 0 0 0-.49.42L9.14 5.07c-.61.25-1.17.59-1.69.98l-2.49-1a.49.49 0 0 0-.61.22l-2 3.46a.5.5 0 0 0 .12.64l2.11 1.65c-.04.32-.08.65-.08.98s.03.66.08.98l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46c.12.21.37.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.04.24.25.42.49.42h4c.24 0 .45-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1c.23.08.49-.01.61-.22l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.65zM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5z"/></svg></button></div>
 </div>
 <nav id="tabs" aria-label="Spellbook sections">
-<button class="tab active" data-tab="cleric">Cleric</button><button class="tab" data-tab="magic">Magic Domain</button><button class="tab" data-tab="balance">Balance Domain</button><button class="tab" data-tab="today">Prepared Today</button>
+<button class="tab active" data-tab="cleric">Cleric</button><button class="tab" data-tab="magic" data-dom="magic">Magic Domain</button><button class="tab" data-tab="balance" data-dom="balance">Balance Domain</button><button class="tab" data-tab="today">Prepared Today</button>
 </nav></header>
 <main>
 <div class="toolbar"><input id="search" class="search" type="search" aria-label="Search spells" placeholder="Search spells…"><select id="levelFilter" class="select" aria-label="Filter by spell level"><option value="all">All levels</option><option value="0">0</option><option value="1">1st</option><option value="2">2nd</option><option value="3">3rd</option><option value="4">4th</option><option value="5">5th</option><option value="6">6th</option><option value="7">7th</option><option value="8">8th</option><option value="9">9th</option></select><select id="preparedFilter" class="select" aria-label="Filter by preparation or favorites"><option value="all">All spells</option><option value="prepared">Prepared</option><option value="favorites">Favorites</option></select></div>
@@ -29,6 +29,6 @@
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 <div class="mobile-tools-backdrop" id="mobileToolsBackdrop"></div>
 <section class="mobile-tools-drawer" id="mobileToolsDrawer" aria-label="Character and slot controls" aria-hidden="true"><header><h2>Character &amp; Slots</h2><button class="mobile-close" id="mobileToolsClose" type="button">Close</button></header><div class="today"><h3>Today’s slots</h3><div id="mobileSlots"></div></div><div class="settings"><h3>Character</h3><div class="settingsrow"><label>Cleric level <input id="mobileCharLevel" type="number" min="1" max="20" inputmode="numeric" value="6"></label><label>Wisdom <input id="mobileWis" type="number" min="1" max="60" inputmode="numeric" value="23"></label><label>Charisma <input id="mobileCha" type="number" min="1" max="60" inputmode="numeric" value="14"></label></div><p class="meta" id="mobileCharacterNote"></p><h3>Innate spells</h3><p class="meta section-note">Racial spell-like abilities, cast like spells.</p><div id="mobileInnateSpells"></div><h3>Domain powers</h3><p class="meta section-note">Granted powers from your Magic and Balance domains.</p><div id="mobileDomainPowers"></div></div></section>
-<script src="js/spells.js?v=20261016-4"></script>
-<script src="js/app.js?v=20261016-4"></script>
+<script src="js/spells.js?v=20261017-1"></script>
+<script src="js/app.js?v=20261017-1"></script>
 </body></html>

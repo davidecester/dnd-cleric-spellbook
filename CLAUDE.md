@@ -67,7 +67,8 @@ Domains are hardcoded by name. Swapping one means updating all of these:
   - every `allSpells("magic"),allSpells("balance")` concatenation
   - the domain-slot notes that say "Magic and Balance"
   - the empty-state text in Prepared Today
-- `index.html`: the header badges, the domain tabs (`data-tab`), and the "Granted powers from your Magic and Balance domains" notes (desktop and mobile).
+- `index.html`: the header badges, the domain tabs (`data-tab` and `data-dom`, which picks the tab's underline color), and the "Granted powers from your Magic and Balance domains" notes (desktop and mobile).
+- `css/styles.css`: every allowed domain already has a color token (`--dom-<domain>`) and a `[data-dom="<domain>"]` rule. Prepared Today rows and domain tabs pick it up from the domain name, so only add a token for a domain not on the allowed lists.
 - `README.md`: the domain names and sources.
 - Saved `localStorage` keys use `"<domain>|level|Spell"`. Prepared or favorited spells from a removed domain become orphaned, so drop them on load.
 
