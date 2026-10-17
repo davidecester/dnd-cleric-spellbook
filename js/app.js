@@ -299,11 +299,11 @@ const STAT_OVERRIDES={
   "nature|7|Control Weather":{casting:"10 minutes; see text",range:"2 miles",target:"2-mile-radius circle, centered on you; see text",duration:"4d12 hours; see text",save:"None",sr:"No",components:"V, S"},
   "nature|8|Animal Shapes":{casting:"Standard action",range:"Close (25 ft. + 5 ft./2 levels)",target:"Up to one willing creature per level, all within 30 ft. of each other",duration:"1 hour/level (D)",save:"None; see text",sr:"Yes (harmless)",components:"V, S, DF"},
   "nature|9|Shapechange":{casting:"Standard action",range:"Personal",target:"You",duration:"10 min./level (D)",save:"",sr:"",components:"V, S, F"},
-  "nature|1|Trance":{range:"120 ft."},
-  "nature|2|Commune with Lesser Spirit":{range:"10 ft."},
-  "nature|3|Possess Animal":{range:"Close (25 ft. + 5 ft./2 levels)"},
-  "nature|4|Elemental Ward":{range:"60 ft."},
-  "nature|5|Commune with Greater Spirit":{range:"10 ft."}
+  "nature|1|Trance":{casting:"1 round",range:"120 ft.",target:"120-ft. spread, centered on you",duration:"1 round/level (D)",save:"None",sr:"No",components:"V, S"},
+  "nature|2|Commune with Lesser Spirit":{casting:"10 minutes",range:"10 ft.",target:"One lesser spirit",duration:"1 minute/level",save:"Will negates; see text",sr:"No",components:"V, S, M"},
+  "nature|3|Possess Animal":{casting:"1 round",range:"Close (25 ft. + 5 ft./2 levels)",target:"One animal",duration:"1 round/level (D)",save:"Will negates",sr:"Yes",components:"V, S, M"},
+  "nature|4|Elemental Ward":{casting:"Standard action",range:"60 ft.",target:"60-ft. emanation, centered on you",duration:"1 minute",save:"Will negates",sr:"Yes",components:"V, S, M"},
+  "nature|5|Commune with Greater Spirit":{casting:"10 minutes",range:"10 ft.",target:"One spirit",duration:"1 minute/level",save:"Will negates; see text",sr:"No",components:"V, S, M, XP"}
 };
 const DEFAULT_INNATE=[
  {id:"aasimar-daylight",n:"Daylight",usesPerDay:1,note:"Aasimar racial spell-like ability (3.5 Monster Manual). Caster level equals class levels."}
@@ -426,7 +426,7 @@ const SRD_FILE={"Lesser Restoration":"restorationLesser","Detect Chaos/Evil/Good
 function spellReference(s){
  // SRD file names: camelCase, apostrophes dropped, roman numerals kept upper case (summonMonsterIX)
  const file=SRD_FILE[s.n]||s.n.replace(/['’]/g,"").split(/[^A-Za-z0-9]+/).filter(Boolean).map((w,i)=>i&&/^[IVX]+$/.test(w)?w:i?w[0].toUpperCase()+w.slice(1).toLowerCase():w.toLowerCase()).join("");
- if(s.url)return {label:`${s.ref}: summary on Realms Help`,url:s.url,note:`Source: ${s.ref}. Only a short summary is available here; paste the book text to add full rules.`};
+ if(s.url)return {label:`${s.ref}: spell page on Realms Help`,url:s.url,note:`Source: ${s.ref}. The description above is written in this sheet's own words from the book; check the book for exact wording.`};
  if(s.ref&&s.ref.startsWith("Spell Compendium"))return {label:`Spell Compendium, ${s.ref.replace("Spell Compendium ","")}`,url:"https://www.dmsguild.com/product/3725/Spell-Compendium-35",note:`Source: ${s.ref}. The description above is written in this sheet's own words; check the book for exact wording.`};
  return {label:"Read full SRD rules text",url:"https://www.d20srd.org/srd/spells/"+file+".htm",note:s.ref?`Source: Player’s Handbook, ${s.ref.replace("PH ","")}. The linked SRD page has the complete rules text.`:"This is SRD material. The linked reference contains the complete spell text and rules details."};
 }

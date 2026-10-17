@@ -40,7 +40,7 @@ Decided versions (ask the user before changing these):
 
 - **Nature**: use Realms Help's **Nature (Shaman)** domain. It's the Rokugan shaman domain from *Oriental Adventures*, not a standard Faerûn cleric domain. Realms Help's Faerûn cleric list has no Nature domain. The user chose it anyway and will ask for a swap if that changes.
   - Granted power: rebuke or command normal animals or plant creatures as an evil cleric rebukes or commands undead. 3 + Cha modifier uses per day.
-  - Spells: 1 Trance, 2 Commune with Lesser Spirit, 3 Possess Animal, 4 Elemental Ward, 5 Commune with Greater Spirit, 6 Transport via Plants, 7 Control Weather, 8 Animal Shapes, 9 Shapechange. Levels 1–5 are *Oriental Adventures* (some also in *Complete Arcane* / *Player's Guide to Faerûn*), so they need the user to paste the text. Levels 6–9 are PHB.
+  - Spells: 1 Trance, 2 Commune with Lesser Spirit, 3 Possess Animal, 4 Elemental Ward, 5 Commune with Greater Spirit, 6 Transport via Plants, 7 Control Weather, 8 Animal Shapes, 9 Shapechange. Levels 1–5 are *Oriental Adventures* (some also in *Complete Arcane* / *Player's Guide to Faerûn*), and were entered from book text the user pasted (Commune with Greater Spirit lists only components and target; its other entries follow Commune with Lesser Spirit). Levels 6–9 are PHB.
 - **Earth**: the Faerûn Earth domain is identical to the PHB one, so use the PHB/SRD.
   - Granted power: turn or destroy air creatures as a good cleric turns undead, and rebuke or command earth creatures as an evil cleric rebukes undead. 3 + Cha modifier uses per day.
   - Spells: 1 Magic Stone, 2 Soften Earth and Stone, 3 Stone Shape, 4 Spike Stones, 5 Wall of Stone, 6 Stoneskin, 7 Earthquake, 8 Iron Body, 9 Elemental Swarm (earth only).
@@ -50,7 +50,7 @@ Decided versions (ask the user before changing these):
 
 - Core domains (Law, Good, Protection, Magic, Earth): Player's Handbook / D&D 3.5 SRD (d20srd.org). Spell cards link to `https://www.d20srd.org/srd/spells/<name>.htm`.
 - Balance: *Spell Compendium* (granted power cited as p. 271). Spells with a `ref` starting "Spell Compendium" link to the book page in `spellReference()`.
-- Inquisition: *Complete Divine* / *Spell Compendium* (power and list checked on Realms Help; all nine spells are SRD spells). Nature (Shaman): *Oriental Adventures*, via Realms Help; its 1st–5th level spells only have Realms Help's one-line summary and link there, until the user pastes the book text. Earth: PHB (the Faerûn version is the same).
+- Inquisition: *Complete Divine* / *Spell Compendium* (power and list checked on Realms Help; all nine spells are SRD spells). Nature (Shaman): *Oriental Adventures*, via Realms Help; its 1st–5th level spells were written from book pages the user pasted, and their cards link to the Realms Help spell pages. Earth: PHB (the Faerûn version is the same).
 - The user's reference for the Faerûn domains is Realms Help. Nature: https://www.realmshelps.net/deities/domain/Nature_(Shaman). Earth is on the same site under `/deities/domain/`. These cloud sessions can't reach the site unless the environment's network policy allows `www.realmshelps.net`. If it's blocked, ask the user to paste the granted power and spell list.
 - Check the actual book for each domain's granted power and its 1st–9th level spell list before coding it. Don't guess. Write spell descriptions in this sheet's own words, as the existing ones are.
 
