@@ -1,12 +1,12 @@
 # CLAUDE.md
 
-Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric, Magic + Balance domains). Plain HTML/CSS/JS, no build step, no dependencies. See `README.md` for features.
+Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric; default domains Magic + Balance, changeable in settings). Plain HTML/CSS/JS, no build step, no dependencies. See `README.md` for features.
 
 ## Layout
 
 - `index.html`: page shell. Loads `css/styles.css`, `js/spells.js`, `js/app.js`.
-- `js/spells.js`: `DATA` object with the Cleric, Magic domain, and Balance domain spell lists.
-- `js/app.js`: all app logic (slots, preparation, innate spells, domain powers, rendering). State is saved to `localStorage` under `caelianSpellbook`. Character settings (Cleric level, Wisdom, Charisma) live in `state.character`, with inputs on desktop (`charLevel`, `wis`, `cha`) and mobile (`mobileCharLevel`, `mobileWis`, `mobileCha`).
+- `js/spells.js`: `DATA` object with the Cleric list and one `DATA.<domain>` list (levels 1–9) for every allowed domain.
+- `js/app.js`: all app logic (slots, preparation, innate spells, domain powers, rendering). State is saved to `localStorage` under `caelianSpellbook`. Character settings (Cleric level, Wisdom, Charisma) live in `state.character`, with inputs on desktop (`charLevel`, `wis`, `cha`) and mobile (`mobileCharLevel`, `mobileWis`, `mobileCha`). The chosen domains live in `state.domains` (2 or 3 ids, default `["magic","balance"]`), picked in the Domains settings (`domainSettings`, `mobileDomainSettings`).
 
 ## Git workflow
 
@@ -50,27 +50,23 @@ Decided versions (ask the user before changing these):
 
 - Core domains (Law, Good, Protection, Magic, Earth): Player's Handbook / D&D 3.5 SRD (d20srd.org). Spell cards link to `https://www.d20srd.org/srd/spells/<name>.htm`.
 - Balance: *Spell Compendium* (granted power cited as p. 271). Spells with a `ref` starting "Spell Compendium" link to the book page in `spellReference()`.
-- Inquisition: *Complete Divine* / *Spell Compendium*. Nature (Shaman): *Oriental Adventures*, via Realms Help. Earth: PHB (the Faerûn version is the same).
+- Inquisition: *Complete Divine* / *Spell Compendium* (power and list checked on Realms Help; all nine spells are SRD spells). Nature (Shaman): *Oriental Adventures*, via Realms Help; its 1st–5th level spells only have Realms Help's one-line summary and link there, until the user pastes the book text. Earth: PHB (the Faerûn version is the same).
 - The user's reference for the Faerûn domains is Realms Help. Nature: https://www.realmshelps.net/deities/domain/Nature_(Shaman). Earth is on the same site under `/deities/domain/`. These cloud sessions can't reach the site unless the environment's network policy allows `www.realmshelps.net`. If it's blocked, ask the user to paste the granted power and spell list.
 - Check the actual book for each domain's granted power and its 1st–9th level spell list before coding it. Don't guess. Write spell descriptions in this sheet's own words, as the existing ones are.
 
-### Changing a domain: everything to update
+### How domains work in the code
 
-Domains are hardcoded by name. Swapping one means updating all of these:
+The user picks domains in settings; nothing about the current pair is hardcoded. Everything follows `state.domains`:
 
-- `js/spells.js`: the `DATA.<domain>` spell list (levels 1–9) and its `ref`s.
-- `js/app.js`:
-  - spell detail entries keyed `"<domain>|<level>|<Spell>"`
-  - `BUILTIN_POWERS` and `DOMAIN_POWER_ORDER` (the granted power, uses per day, and the source citation). Keep the key as `"<domain>-power"`: the power card takes its domain color from it.
-  - `sourceLabel`
-  - the source switch in `allSpells`
-  - every `allSpells("magic"),allSpells("balance")` concatenation
-  - the domain-slot notes that say "Magic and Balance"
-  - the empty-state text in Prepared Today
-- `index.html`: the header badges, the domain tabs (`data-tab` and `data-dom`, which picks the tab's underline color), and the "Granted powers from your Magic and Balance domains" notes (desktop and mobile).
-- `css/styles.css`: every allowed domain already has a color token (`--dom-<domain>`) and a `[data-dom="<domain>"]` rule. Prepared Today rows and domain tabs pick it up from the domain name, so only add a token for a domain not on the allowed lists.
-- `README.md`: the domain names and sources.
-- Saved `localStorage` keys use `"<domain>|level|Spell"`. Prepared or favorited spells from a removed domain become orphaned, so drop them on load.
+- `DOMAINS` in `js/app.js` lists every allowed domain (name and which allowed list it's on). `activeSpells()` = Cleric list + each chosen domain's `DATA.<domain>`.
+- Tabs, header badges and the "Granted powers from your … domains" notes are built by `renderDomainChrome()`.
+- Granted powers are `BUILTIN_POWERS["<domain>-power"]`. Keep that key format: the power card takes its domain color from it. Powers that scale with Charisma use a `usesPerDay` getter with `charismaModifier()`.
+- Spell stats: `STAT_OVERRIDES["<domain>|<level>|<Spell>"]`, falling back to any entry for the same spell name. Stats for the non-Magic/Balance domains were copied from the d20srd.org stat blocks.
+- `css/styles.css`: each allowed domain has a color token (`--dom-<domain>`) and a `[data-dom="<domain>"]` rule.
+- Saved keys use `"<domain>|level|Spell"`. Prepared spells from a domain that isn't chosen are dropped on load and when a domain is removed (the user is asked first). Favorites are kept so they come back if the domain is picked again.
+- A third domain is allowed as an option. It isn't RAW for a plain cleric (it needs e.g. the Contemplative prestige class or DM approval) and the settings note says so. It still shares the single domain slot per spell level.
+
+To add a domain that isn't on the allowed lists: add `DATA.<id>`, a `DOMAINS` entry, a `BUILTIN_POWERS` entry, a color token, and update `README.md`. Check its source first, as above.
 
 ## Rules accuracy
 
