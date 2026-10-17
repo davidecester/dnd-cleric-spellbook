@@ -229,6 +229,8 @@ section>h3{font-size:19px;margin:26px 0 6px}
 .settings .section-note{margin:-6px 0 12px}
 .domain-card{border-color:var(--silver-line)}
 .domain-card h3{color:var(--silver)}
+.domain-card[data-dom]:not(.over){border-color:color-mix(in srgb,var(--dom) 45%,transparent);background:color-mix(in srgb,var(--dom) 8%,var(--surface))}
+.domain-card[data-dom] h3,.domain-card[data-dom] .used.passive{color:var(--dom)}
 /* Keep numbers lining and aligned (after any font shorthand) */
 .title h1,.levelhead strong,.spellname,.detail h2,.sheet h2,.summarycard b,.dc-item b,.slotcard h3,.slotcard .used,.innate-card h3,.today h3,.settings h3,section>h3{font-variant-numeric:lining-nums tabular-nums}
 

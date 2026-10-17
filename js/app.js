@@ -318,7 +318,7 @@ function domainUsesLeft(key){const p=BUILTIN_POWERS[key];return p.passive?Infini
 function toggleDomainUse(key){const p=BUILTIN_POWERS[key];if(!p||p.passive)return;const used=state.innateUsed[key]||0;state.innateUsed[key]=used>=p.usesPerDay?0:used+1;save();render();}
 function domainPowerCardHTML(key){const p=BUILTIN_POWERS[key],left=domainUsesLeft(key);
  const usage=p.passive?`<div class="used passive">Always active</div>`:`<div class="used">${p.usesPerDay-left} / ${p.usesPerDay} used today</div><div class="actionrow"><button type="button" class="action secondary" data-domain-act="use">${left>0?"Mark used":"Reset"}</button></div>`;
- return `<div class="slotcard innate-card domain-card ${!p.passive&&left<=0?"over":""}" data-power="${key}"><h3>${esc(p.name)}</h3><p class="meta">${esc(p.source)}</p><p class="innate-effect">${esc(p.effect())}</p>${usage}</div>`;}
+ return `<div class="slotcard innate-card domain-card ${!p.passive&&left<=0?"over":""}" data-power="${key}" data-dom="${key.replace(/-power$/,"")}"><h3>${esc(p.name)}</h3><p class="meta">${esc(p.source)}</p><p class="innate-effect">${esc(p.effect())}</p>${usage}</div>`;}
 function fillDomainPowers(node,grid){if(!node)return;const cards=DOMAIN_POWER_ORDER.map(domainPowerCardHTML).join("");node.innerHTML=grid?`<div class="slotgrid">${cards}</div>`:cards;node.querySelectorAll("[data-domain-act]").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleDomainUse(b.closest("[data-power]").dataset.power);});}
 function renderInnate(){["innateSpells","mobileInnateSpells"].forEach(id=>fillInnate(document.getElementById(id),true));["domainPowers","mobileDomainPowers"].forEach(id=>fillDomainPowers(document.getElementById(id),false));}
 

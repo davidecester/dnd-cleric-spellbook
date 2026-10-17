@@ -61,7 +61,7 @@ Domains are hardcoded by name. Swapping one means updating all of these:
 - `js/spells.js`: the `DATA.<domain>` spell list (levels 1–9) and its `ref`s.
 - `js/app.js`:
   - spell detail entries keyed `"<domain>|<level>|<Spell>"`
-  - `BUILTIN_POWERS` and `DOMAIN_POWER_ORDER` (the granted power, uses per day, and the source citation)
+  - `BUILTIN_POWERS` and `DOMAIN_POWER_ORDER` (the granted power, uses per day, and the source citation). Keep the key as `"<domain>-power"`: the power card takes its domain color from it.
   - `sourceLabel`
   - the source switch in `allSpells`
   - every `allSpells("magic"),allSpells("balance")` concatenation
