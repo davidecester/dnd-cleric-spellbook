@@ -313,7 +313,7 @@ const DOMAINS={
  nature:{name:"Nature",group:"deity"},magic:{name:"Magic",group:"deity"},balance:{name:"Balance",group:"deity"},earth:{name:"Earth",group:"deity"},
  law:{name:"Law",group:"concept"},good:{name:"Good",group:"concept"},protection:{name:"Protection",group:"concept"},inquisition:{name:"Inquisition",group:"concept"}
 };
-const DEFAULT_DOMAINS=["magic","balance"];
+const DEFAULT_DOMAINS=["earth","balance"];
 const MAX_DOMAINS=3;
 function domainPowerOrder(){return state.domains.map(d=>d+"-power");}
 const signed=n=>(n>=0?"+":"")+n;

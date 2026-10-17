@@ -1,6 +1,6 @@
 # Caelian Cleric Spellbook
 
-A responsive, standalone D&D 3.5 Cleric spellbook for Caelian Vàel, an Aasimar cleric (Magic and Balance domains by default). It includes the full Cleric spell list, the spell lists of every domain Caelian can choose, preparation tracking, bookmarks, spell details, and editable Cleric level, Wisdom and Charisma values.
+A responsive, standalone D&D 3.5 Cleric spellbook for Caelian Vàel, an Aasimar cleric (Earth and Balance domains by default). It includes the full Cleric spell list, the spell lists of every domain Caelian can choose, preparation tracking, bookmarks, spell details, and editable Cleric level, Wisdom and Charisma values.
 
 ## Features
 
