@@ -1,12 +1,12 @@
 # CLAUDE.md
 
-Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric; default domains Magic + Balance, changeable in settings). Plain HTML/CSS/JS, no build step, no dependencies. See `README.md` for features.
+Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric; default domains Earth + Balance, changeable in settings). Plain HTML/CSS/JS, no build step, no dependencies. See `README.md` for features.
 
 ## Layout
 
 - `index.html`: page shell. Loads `css/styles.css`, `js/spells.js`, `js/app.js`.
 - `js/spells.js`: `DATA` object with the Cleric list and one `DATA.<domain>` list (levels 1–9) for every allowed domain.
-- `js/app.js`: all app logic (slots, preparation, innate spells, domain powers, rendering). State is saved to `localStorage` under `caelianSpellbook`. Character settings (Cleric level, Wisdom, Charisma) live in `state.character`, with inputs on desktop (`charLevel`, `wis`, `cha`) and mobile (`mobileCharLevel`, `mobileWis`, `mobileCha`). The chosen domains live in `state.domains` (2 or 3 ids, default `["magic","balance"]`), picked in the Domains settings (`domainSettings`, `mobileDomainSettings`).
+- `js/app.js`: all app logic (slots, preparation, innate spells, domain powers, rendering). State is saved to `localStorage` under `caelianSpellbook`. Character settings (Cleric level, Wisdom, Charisma) live in `state.character`, with inputs on desktop (`charLevel`, `wis`, `cha`) and mobile (`mobileCharLevel`, `mobileWis`, `mobileCha`). The chosen domains live in `state.domains` (2 or 3 ids, default `["earth","balance"]`), picked in the Domains settings (`domainSettings`, `mobileDomainSettings`).
 
 ## Git workflow
 
@@ -29,7 +29,7 @@ Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric; default d
 
 ## Character domains
 
-Caelian's **current domains: Magic + Balance.** A cleric has two domains. They can only be swapped for domains on these allowed lists (the user's Italian names in brackets):
+Caelian's **current domains: Earth + Balance** (Earth replaced Magic). A cleric has two domains. They can only be swapped for domains on these allowed lists (the user's Italian names in brackets):
 
 - **Deity-concept domains**: Law (legge), Good (bene), Protection (protezione), Inquisition (inquisizione). These are for Caelian's own deity concept. The campaign uses divine shards and lets characters ascend to godhood.
 - **Worshipped deity's domains**: Nature (natura), Magic (magia), Balance (equilibrio), Earth (terra). These come from the deity Caelian worships as a cleric. The user says Nature and Earth are the Faerûn (Forgotten Realms) versions.
@@ -44,7 +44,7 @@ Decided versions (ask the user before changing these):
 - **Earth**: the Faerûn Earth domain is identical to the PHB one, so use the PHB/SRD.
   - Granted power: turn or destroy air creatures as a good cleric turns undead, and rebuke or command earth creatures as an evil cleric rebukes undead. 3 + Cha modifier uses per day.
   - Spells: 1 Magic Stone, 2 Soften Earth and Stone, 3 Stone Shape, 4 Spike Stones, 5 Wall of Stone, 6 Stoneskin, 7 Earthquake, 8 Iron Body, 9 Elemental Swarm (earth only).
-- Most likely next swap: Magic → Earth. Both granted powers above scale with Charisma. Use `charismaModifier()` in `js/app.js` (Charisma is an editable setting, default 14), never a hardcoded number.
+- Magic was swapped for Earth. The Earth and Nature granted powers scale with Charisma. Use `charismaModifier()` in `js/app.js` (Charisma is an editable setting, default 14), never a hardcoded number.
 
 ### Where domain rules come from
 
