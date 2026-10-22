@@ -271,13 +271,8 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .row-controls{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:124px}
 .ctl{display:flex;flex-direction:column;gap:3px}
 .ctl-label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-left:4px;font-variant-numeric:tabular-nums}
-.row-controls{--pill-h:40px}
-/* The Prepared stepper, the Used stepper and the Mark used button share one fixed height, so no browser can size them differently */
-.row-controls .qty,.row-controls .cast-toggle{display:flex;justify-content:space-between;height:var(--pill-h);min-height:0;box-sizing:border-box;line-height:1}
-.row-controls .cast-toggle{justify-content:center}
-.row-controls .qty-btn{width:calc(var(--pill-h) - 6px);height:calc(var(--pill-h) - 6px);flex:none}
-.row-controls .qty-n{line-height:1}
-.cast-toggle{display:flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 12px;border:1px solid var(--used-line);border-radius:999px;background:var(--used-soft);color:var(--used);font-family:inherit;font-size:14px;font-weight:600;line-height:1;cursor:pointer;white-space:nowrap}
+.row-controls .qty{display:flex;justify-content:space-between}
+.cast-toggle{display:flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 12px;border:1px solid var(--used-line);border-radius:999px;background:var(--used-soft);color:var(--used);font-family:inherit;font-size:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
 .cast-toggle .icon{opacity:.4}
 .cast-toggle:hover{background:var(--surface-2)}
 .cast-toggle.used{background:var(--used);border-color:var(--used);color:var(--bg)}
@@ -295,4 +290,4 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .slotcard.spent{opacity:.6}
 .slotcard .used.empty-level{font-size:16px;color:var(--muted)}
 /* Keep the Mark used button the same height as the steppers, which shrink to 30px buttons on small phones */
-@media (max-width:420px){.row-controls{--pill-h:36px}}
+@media (max-width:420px){.cast-toggle{min-height:36px}}
