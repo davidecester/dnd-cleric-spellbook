@@ -284,3 +284,5 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .slotcard .slot-sub{font-size:13.5px;margin-top:2px}
 .slotcard.spent{opacity:.6}
 .slotcard .used.empty-level{font-size:16px;color:var(--muted)}
+/* Keep the Mark used button the same height as the steppers, which shrink to 30px buttons on small phones */
+@media (max-width:420px){.cast-toggle{min-height:36px}}
