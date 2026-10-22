@@ -9,6 +9,7 @@ const ICON_PATHS={
  plus:'<path d="M3.5 8h9M8 3.5v9"/>',
  star:'<path fill="currentColor" d="M8 1.6l1.98 4.01 4.42.64-3.2 3.12.76 4.4L8 11.69l-3.96 2.08.76-4.4-3.2-3.12 4.42-.64z"/>',
  starOutline:'<path d="M8 1.6l1.98 4.01 4.42.64-3.2 3.12.76 4.4L8 11.69l-3.96 2.08.76-4.4-3.2-3.12 4.42-.64z"/>',
+ check:'<path d="M3.5 8.5l3 3 6-7"/>',
  arrowRight:'<path d="M3 8h10M9 4l4 4-4 4"/>',
  external:'<path d="M6 3.5H3.5v9h9V10M9 3.5h3.5V7M12.5 3.5L7 9"/>'
 };
@@ -328,12 +329,13 @@ const BUILTIN_POWERS={
  "magic-power":{name:"Magic domain power",passive:true,source:"Magic domain granted power · Player’s Handbook p. 187",effect:()=>`Always active: use spell completion and spell trigger items (scrolls, wands, staffs) as a wizard of level ${Math.max(1,Math.floor(characterLevel()/2))} (half your cleric level, minimum 1st).`}
 };
 let tab="cleric", selected=null;
-let state={prepared:[],favorites:[],character:{level:6,wisdom:23,charisma:14},domains:DEFAULT_DOMAINS.slice(),innate:null,innateUsed:{}};
+let state={prepared:[],favorites:[],character:{level:6,wisdom:23,charisma:14},domains:DEFAULT_DOMAINS.slice(),innate:null,innateUsed:{},cast:{}};
 try { const saved=window.localStorage.getItem("caelianSpellbook"); if(saved) state={...state,...JSON.parse(saved)}; } catch(e) {}
 state.prepared=Array.isArray(state.prepared)?state.prepared:[]; state.favorites=Array.isArray(state.favorites)?state.favorites:[]; state.character={...{level:6,wisdom:23,charisma:14},...(state.character||{})};
 state.domains=validDomains(state.domains);
 state.prepared=state.prepared.filter(k=>isActiveSource(k.split("|")[0]));
 state.favorites=state.favorites.filter(k=>{const src=k.split("|")[0];return src==="cleric"||DOMAINS[src];});
+state.cast=(state.cast&&typeof state.cast==="object"&&!Array.isArray(state.cast))?state.cast:{};
 state.innateUsed=(state.innateUsed&&typeof state.innateUsed==="object"&&!Array.isArray(state.innateUsed))?state.innateUsed:{};
 const hadSavedInnate=Array.isArray(state.innate);
 state.innate=hadSavedInnate?state.innate.filter(e=>e&&typeof e==="object").map((e,i)=>({id:String(e.id||("innate-"+Date.now()+"-"+i)),n:String(e.n||""),usesPerDay:Math.max(1,Math.min(20,parseInt(e.usesPerDay,10)||1)),note:String(e.note||""),custom:!!e.custom,passive:!!e.passive,builtin:BUILTIN_POWERS[e.builtin]?e.builtin:undefined})):[];
@@ -346,6 +348,7 @@ Object.keys(state.innateUsed).forEach(k=>{if(!state.innate.some(e=>e.id===k)&&!B
 const save=()=>{ try { window.localStorage.setItem("caelianSpellbook",JSON.stringify(state)); } catch(e) {} };
 const key=(source,lvl,n)=>source+"|"+lvl+"|"+n;
 const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+clampCast();
 const sourceLabel=s=>s==="cleric"?"Cleric spell":DOMAINS[s]?DOMAINS[s].name+" domain":s;
 function innateSpellData(name){const n=String(name||"").trim().toLowerCase();return activeSpells().find(s=>s.n.toLowerCase()===n)||null;}
 function builtinOf(entry){return entry&&entry.builtin?BUILTIN_POWERS[entry.builtin]:null;}
@@ -409,6 +412,14 @@ function slotsUsed(level,domain){return preparedAt(level,domain).reduce((sum,s)=
 function prepareLimit(s){const info=slotInfo(s.l);return isDomain(s)?info.domain:info.normal;}
 function canPrepareMore(s){const limit=prepareLimit(s);return limit>0&&slotsUsed(s.l,isDomain(s))<limit;}
 function qtyStepperHTML(s){const n=preparedCount(s);return `<div class="qty" role="group" aria-label="Prepared copies of ${esc(s.n)}"><button type="button" class="qty-btn" data-qty="-1" ${n?"":"disabled"} aria-label="Prepare one fewer ${esc(s.n)}">${icon("minus")}</button><span class="qty-n" aria-live="polite">×${n}</span><button type="button" class="qty-btn" data-qty="1" ${canPrepareMore(s)?"":"disabled"} aria-label="Prepare one more ${esc(s.n)}">${icon("plus")}</button></div>`;}
+// Cast tracking: state.cast["source|level|Spell"] = how many prepared copies of that spell have been cast today (never more than prepared)
+function castCount(s){return Math.min(state.cast[key(s.source,s.l,s.n)]||0,preparedCount(s));}
+function castLeft(s){return preparedCount(s)-castCount(s);}
+function clampCast(){Object.keys(state.cast).forEach(k=>{const n=Math.min(parseInt(state.cast[k],10)||0,state.prepared.filter(p=>p===k).length);n>0?state.cast[k]=n:delete state.cast[k];});}
+function castAt(level,domain){return preparedAt(level,domain).reduce((sum,s)=>sum+castCount(s),0);}
+function setCast(s,n){const k=key(s.source,s.l,s.n);n=Math.max(0,Math.min(n,preparedCount(s)));n?state.cast[k]=n:delete state.cast[k];save();render();}
+function castPipsHTML(s){const n=preparedCount(s),c=castCount(s);let pips="";for(let i=0;i<n;i++){const used=i<c;pips+=`<button type="button" class="cast-pip${used?" used":""}" data-pip="${i}" aria-pressed="${used}" aria-label="${used?"Unmark":"Mark"} copy ${i+1} of ${esc(s.n)} as cast">${used?icon("check",14):""}</button>`;}return `<div class="cast-row" role="group" aria-label="Cast copies of ${esc(s.n)}"><span class="cast-label">${c?`${c} cast · ${n-c} left`:`${n} left`}</span>${pips}</div>`;}
+function bindPips(node,s){node.querySelectorAll("[data-pip]").forEach(button=>button.onclick=event=>{event.stopPropagation();const i=+button.dataset.pip;setCast(s,castCount(s)>i?i:i+1);});}
 function bindQty(node,s){node.querySelectorAll("[data-qty]").forEach(button=>button.onclick=event=>{event.stopPropagation();button.dataset.qty==="1"?addPrepared(s):removePrepared(s);});}
 function characterLevel(){return state.character.level;}
 function wisdom(){return state.character.wisdom;}
@@ -479,25 +490,27 @@ function render(){
 }
 function renderToday(el){
  const all=activeSpells();
- const levels=activeSpellLevels(),prepared=all.filter(s=>state.prepared.includes(key(s.source,s.l,s.n))),preparedSlots=prepared.reduce((sum,s)=>sum+preparedCount(s),0),totalCapacity=levels.reduce((sum,level)=>{const info=slotInfo(level);return sum+info.normal+info.domain;},0);
+ const levels=activeSpellLevels(),prepared=all.filter(s=>state.prepared.includes(key(s.source,s.l,s.n))),preparedSlots=prepared.reduce((sum,s)=>sum+preparedCount(s),0),totalCapacity=levels.reduce((sum,level)=>{const info=slotInfo(level);return sum+info.normal+info.domain;},0),castTotal=prepared.reduce((sum,s)=>sum+castCount(s),0);
  const dcCards=levels.map(level=>`<div class="dc-item"><span>${level===0?"0-level":ordinal(level)+" level"}</span><b>DC ${spellDC(level)}</b></div>`).join("");
- el.innerHTML=`<section><h2 style="margin:0 0 4px">Prepared Today</h2><p class="prepared-intro">Caelian, Cleric ${characterLevel()} · Wisdom ${wisdom()} (${wisdomModifier()>=0?"+":""}${wisdomModifier()}). Checkboxes prepare spells and ${inlineIcon("minus")} / ${inlineIcon("plus")} sets how many times each is prepared; ${inlineIcon("star")} bookmarks them for the Favorites filter.</p><div class="summarygrid"><div class="summarycard"><b>${preparedSlots} / ${totalCapacity}</b><span>Prepared slots</span></div><div class="summarycard"><b>+${characterLevel()}</b><span>Caster level / dispel check</span></div><div class="summarycard"><b>${levels.filter(level=>level>0).length}</b><span>Available domain levels</span></div></div><div class="dc-panel"><h3>Spell Save DC by Level</h3><div class="dc-grid">${dcCards}</div></div><div class="bookmark-note"><strong>${icon("star")}</strong><span>Favorites are personal bookmarks only. They make a spell easier to find and do not prepare it.</span></div><div class="slotgrid">${levels.map(level=>slotCard(level)).join("")}</div><h3>Innate spells</h3><p class="prepared-intro">Racial spell-like abilities. They never use a Cleric or domain slot, only their own daily uses, and clearing prepared spells doesn’t reset them.</p><div id="todayInnate"></div><h3>Domain powers</h3><p class="prepared-intro">Granted bonuses from your domains, always available.</p><div id="todayDomain"></div><div class="actionrow"><button class="action secondary" id="clearPrepared">Clear today’s preparation</button></div></section>`;
+ el.innerHTML=`<section><h2 style="margin:0 0 4px">Prepared Today</h2><p class="prepared-intro">Caelian, Cleric ${characterLevel()} · Wisdom ${wisdom()} (${wisdomModifier()>=0?"+":""}${wisdomModifier()}). Checkboxes prepare spells and ${inlineIcon("minus")} / ${inlineIcon("plus")} sets how many times each is prepared; ${inlineIcon("star")} bookmarks them for the Favorites filter. Tap a circle under a spell to mark one prepared copy as cast; a spell you give up to cast a cure spell spontaneously counts as cast too.</p><div class="summarygrid"><div class="summarycard"><b>${preparedSlots-castTotal} / ${preparedSlots}</b><span>Spells left to cast</span></div><div class="summarycard"><b>${preparedSlots} / ${totalCapacity}</b><span>Prepared slots</span></div><div class="summarycard"><b>+${characterLevel()}</b><span>Caster level / dispel check</span></div><div class="summarycard"><b>${levels.filter(level=>level>0).length}</b><span>Available domain levels</span></div></div><div class="dc-panel"><h3>Spell Save DC by Level</h3><div class="dc-grid">${dcCards}</div></div><div class="bookmark-note"><strong>${icon("star")}</strong><span>Favorites are personal bookmarks only. They make a spell easier to find and do not prepare it.</span></div><div class="slotgrid">${levels.map(level=>slotCard(level)).join("")}</div><h3>Innate spells</h3><p class="prepared-intro">Racial spell-like abilities. They never use a Cleric or domain slot, only their own daily uses, and clearing prepared spells doesn’t reset them.</p><div id="todayInnate"></div><h3>Domain powers</h3><p class="prepared-intro">Granted bonuses from your domains, always available.</p><div id="todayDomain"></div><div class="actionrow"><button class="action secondary" id="restDay" ${castTotal||Object.keys(state.innateUsed).length?"":"disabled"}>New day: reset cast spells and uses</button><button class="action secondary" id="clearPrepared">Clear today’s preparation</button></div></section>`;
  const unsupported=prepared.filter(s=>!slotInfo(s.l).normal).reduce((sum,s)=>sum+preparedCount(s),0); if(unsupported)el.innerHTML+=`<div class="warning">${unsupported} prepared spell${unsupported===1?" is":"s are"} above the current Cleric level or Wisdom limit. Remove ${unsupported===1?"it":"them"} before play.</div>`;
  const grouped=levels.map(level=>({level,normal:prepared.filter(s=>s.l===level&&!isDomain(s)),domain:prepared.filter(s=>s.l===level&&isDomain(s))}));
- grouped.forEach(group=>{const section=document.createElement("div");section.className="level";section.innerHTML=`<div class="levelhead"><strong>${group.level===0?"0 · Orisons":ordinal(group.level)+" · Spells"}</strong><span class="count">${slotsUsed(group.level,false)} cleric · ${slotsUsed(group.level,true)} domain</span></div>`;[...group.normal,...group.domain].forEach(s=>{const row=document.createElement("div");row.className="spellrow has-qty"+(isDomain(s)?" domain-row":"");if(isDomain(s))row.dataset.dom=s.source;row.innerHTML=`<div></div><div><div class="spellname">${esc(s.n)}</div><div class="meta">${isDomain(s)?`<span class="dom-label">${sourceLabel(s.source)}</span>`:sourceLabel(s.source)} · ${esc(s.s)} · DC ${spellDC(s.l)}</div></div>${qtyStepperHTML(s)}<button class="star" aria-label="Open ${esc(s.n)}">${icon("arrowRight",18)}</button>`;bindQty(row,s);row.onclick=()=>showSpellModal(s);section.appendChild(row);});el.appendChild(section);});
+ grouped.forEach(group=>{const section=document.createElement("div");section.className="level";section.innerHTML=`<div class="levelhead"><strong>${group.level===0?"0 · Orisons":ordinal(group.level)+" · Spells"}</strong><span class="count">${levelLeftText(group.level)}</span></div>`;[...group.normal,...group.domain].forEach(s=>{const row=document.createElement("div");row.className="spellrow has-qty"+(isDomain(s)?" domain-row":"")+(castLeft(s)?"":" spent");if(isDomain(s))row.dataset.dom=s.source;row.innerHTML=`<div></div><div><div class="spellname">${esc(s.n)}</div><div class="meta">${isDomain(s)?`<span class="dom-label">${sourceLabel(s.source)}</span>`:sourceLabel(s.source)} · ${esc(s.s)} · DC ${spellDC(s.l)}</div>${castPipsHTML(s)}</div>${qtyStepperHTML(s)}<button class="star" aria-label="Open ${esc(s.n)}">${icon("arrowRight",18)}</button>`;bindQty(row,s);bindPips(row,s);row.onclick=()=>showSpellModal(s);section.appendChild(row);});el.appendChild(section);});
  if(!prepared.length)el.innerHTML+=`<div class="empty">No spells prepared yet. Go to Cleric or a domain tab (${domainNames()}) and tick a checkbox.</div>`;
  fillInnate(document.getElementById("todayInnate"),false); fillDomainPowers(document.getElementById("todayDomain"),true);
- document.getElementById("clearPrepared").onclick=()=>{state.prepared=[];save();render();if(selected)openSpell(selected);};
+ document.getElementById("clearPrepared").onclick=()=>{state.prepared=[];state.cast={};save();render();if(selected)openSpell(selected);};
+ document.getElementById("restDay").onclick=()=>{if(!confirm("Start a new day? Every prepared spell becomes uncast and innate spell and domain power uses reset. Your preparation stays as it is."))return;state.cast={};state.innateUsed={};save();render();};
 }
-function slotCard(level){const info=slotInfo(level),normal=slotsUsed(level,false),domain=slotsUsed(level,true),over=normal>info.normal||domain>info.domain;return `<div class="slotcard ${over?"over":""}"><h3>${level===0?"0 · Orisons":ordinal(level)+" · Spells"}</h3><p>${info.normal} cleric${info.domain?" + 1 domain":""}</p><div class="used">${normal} / ${info.normal}${info.domain?` · ${domain} / 1 D`:""}</div></div>`;}
+function levelLeftText(level){const info=slotInfo(level),left=slotsUsed(level,false)-castAt(level,false),dLeft=slotsUsed(level,true)-castAt(level,true);return `${left} cleric${info.domain?` · ${dLeft} domain`:""} left`;}
+function slotCard(level){const info=slotInfo(level),normal=slotsUsed(level,false),domain=slotsUsed(level,true),over=normal>info.normal||domain>info.domain,left=normal-castAt(level,false),dLeft=domain-castAt(level,true),open=Math.max(0,info.normal-normal)+Math.max(0,info.domain-domain),spent=normal+domain>0&&!left&&!dLeft&&!open;return `<div class="slotcard ${over?"over":spent?"spent":""}"><h3>${level===0?"0 · Orisons":ordinal(level)+" · Spells"}</h3><p>${info.normal} cleric${info.domain?" + 1 domain":""}</p>${normal+domain?`<div class="used">${left} / ${normal}${info.domain?` · ${dLeft} / ${domain} D`:""}</div><p class="slot-sub">left to cast${open?` · ${open} slot${open===1?"":"s"} not prepared`:""}</p>`:`<div class="used empty-level">Nothing prepared</div>`}</div>`;}
 function ordinal(number){return["","1st","2nd","3rd"][number]||number+"th";}
 function addPrepared(s){
  const domain=isDomain(s),limit=prepareLimit(s);if(!limit){alert(`Caelian cannot prepare ${ordinal(s.l)}-level spells at Cleric ${characterLevel()} with Wisdom ${wisdom()}.`);return;}if(slotsUsed(s.l,domain)>=limit){alert(domain?`The ${ordinal(s.l)}-level domain slot is already filled. Remove that domain spell first.`:`All ${limit} ${ordinal(s.l)}-level cleric slots are filled. Remove a spell first.`);return;}state.prepared.push(key(s.source,s.l,s.n));afterPrepareChange();
 }
-function removePrepared(s){const index=state.prepared.lastIndexOf(key(s.source,s.l,s.n));if(index<0)return;state.prepared.splice(index,1);afterPrepareChange();}
+function removePrepared(s){const index=state.prepared.lastIndexOf(key(s.source,s.l,s.n));if(index<0)return;state.prepared.splice(index,1);clampCast();afterPrepareChange();}
 function afterPrepareChange(){save();render();if(selected)openSpell(selected);}
 // Checkbox / "Remove all": prepares one copy, or clears every copy of the spell
-function togglePrepared(s){const spellKey=key(s.source,s.l,s.n);if(state.prepared.includes(spellKey)){state.prepared=state.prepared.filter(k=>k!==spellKey);afterPrepareChange();}else addPrepared(s);}
+function togglePrepared(s){const spellKey=key(s.source,s.l,s.n);if(state.prepared.includes(spellKey)){state.prepared=state.prepared.filter(k=>k!==spellKey);clampCast();afterPrepareChange();}else addPrepared(s);}
 function toggleFavorite(s){const spellKey=key(s.source,s.l,s.n),index=state.favorites.indexOf(spellKey);index>=0?state.favorites.splice(index,1):state.favorites.push(spellKey);save();render();if(selected)openSpell(selected);}
 function updateBadge(){document.getElementById("preparedBadge").textContent=state.prepared.length+" prepared";}
 function syncCharacterUI(){
@@ -505,7 +518,7 @@ function syncCharacterUI(){
  ["charLevel","mobileCharLevel"].forEach(id=>document.getElementById(id).value=characterLevel());["wis","mobileWis"].forEach(id=>document.getElementById(id).value=wisdom());["cha","mobileCha"].forEach(id=>document.getElementById(id).value=charisma());subtitle.textContent=`D&D 3.5 · Cleric ${characterLevel()} · Wisdom ${wisdom()} (${wisdomModifier()>=0?"+":""}${wisdomModifier()})`;
  const text=`Slots and spell DCs update from Cleric level and Wisdom. Charisma sets uses per day for domain powers that scale with it.`;note.textContent=text;mobileNote.textContent=text;
 }
-function slotSummaryHTML(){const levels=activeSpellLevels();return levels.map(level=>{const info=slotInfo(level);return `<div class="slotline"><span>${level===0?"Orisons":ordinal(level)+" level"}</span><b>${slotsUsed(level,false)}/${info.normal}${info.domain?` · ${slotsUsed(level,true)}/1 D`:""}</b></div>`;}).join("")+`<div class="slotline"><span>Spell DCs</span><b>Listed by level</b></div>`+levels.map(level=>`<div class="slotline"><span>DC · ${level===0?"0-level":ordinal(level)}</span><b>${spellDC(level)}</b></div>`).join("")+`<div class="slotline"><span>Caster level</span><b>${characterLevel()}</b></div>`;}
+function slotSummaryHTML(){const levels=activeSpellLevels();return levels.map(level=>{const info=slotInfo(level);const cast=castAt(level,false)+castAt(level,true);return `<div class="slotline"><span>${level===0?"Orisons":ordinal(level)+" level"}</span><b>${slotsUsed(level,false)}/${info.normal}${info.domain?` · ${slotsUsed(level,true)}/1 D`:""}${cast?` · ${cast} cast`:""}</b></div>`;}).join("")+`<div class="slotline"><span>Spell DCs</span><b>Listed by level</b></div>`+levels.map(level=>`<div class="slotline"><span>DC · ${level===0?"0-level":ordinal(level)}</span><b>${spellDC(level)}</b></div>`).join("")+`<div class="slotline"><span>Caster level</span><b>${characterLevel()}</b></div>`;}
 // Header badges, domain tabs and power notes follow state.domains
 function renderDomainChrome(){
  const badges=document.querySelector(".badges"),prepared=document.getElementById("preparedBadge");
@@ -529,7 +542,7 @@ function changeDomain(index,value){
  const domains=validDomains(next.filter(Boolean));
  const lost=state.prepared.filter(k=>{const src=k.split("|")[0];return src!=="cleric"&&!domains.includes(src);});
  if(lost.length&&!confirm(`This removes ${lost.length} prepared spell${lost.length===1?"":"s"} from the domain you are dropping. Continue?`)){render();return;}
- state.domains=domains;state.prepared=state.prepared.filter(k=>isActiveSource(k.split("|")[0]));
+ state.domains=domains;state.prepared=state.prepared.filter(k=>isActiveSource(k.split("|")[0]));clampCast();
  if(selected&&!isActiveSource(selected.source))clearDetail();
  save();renderDomainChrome();render();if(selected)openSpell(selected);
 }
