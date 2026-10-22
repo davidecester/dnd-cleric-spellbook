@@ -150,9 +150,8 @@ section>h3{font-size:19px;margin:26px 0 6px}
 
 /* ---------- Innate spells ---------- */
 .innate-card{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;background:var(--sunken)}
-#todayInnate .slotgrid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-/* Domain powers stack full width at every size, so long power text has room */
-#todayDomain .slotgrid{grid-template-columns:minmax(0,1fr)}
+/* Innate spells and domain powers stack full width at every size, so the cards fill the row and long text has room */
+#todayInnate .slotgrid,#todayDomain .slotgrid{grid-template-columns:minmax(0,1fr)}
 .slotgrid .innate-card{margin-bottom:0;background:var(--surface)}
 .innate-card .actionrow{margin:4px 0 0}
 .innate-field{display:flex;flex-direction:column;gap:6px;font-size:14.5px;color:var(--muted)}
