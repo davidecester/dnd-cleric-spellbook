@@ -310,3 +310,21 @@ html.scroll-locked,html.scroll-locked body{overflow:hidden}
 .undo-use{display:inline-flex;align-items:center;gap:6px}
 .undo-use:disabled{opacity:.4;cursor:default}
 .cast-toggle:disabled{cursor:default}
+.today-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;margin:40px 0 12px;padding-top:22px;border-top:1px solid var(--line)}
+.today .today-head h3,section .today-head h3{font-size:24px;margin:0}
+.today-sub{color:var(--muted);margin:-4px 0 14px;font-size:15px}
+.today-head+.level,.today-head+.empty{margin-top:0}
+#todayInnate>.slotgrid:last-child,#todayDomain>.slotgrid:last-child{margin-bottom:0}
+.summarygrid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.more{margin-top:10px}
+.more>summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;list-style:none;color:var(--muted);font-size:14.5px;font-weight:600;padding:6px 4px;border-radius:var(--r-md)}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary:hover{color:var(--ink)}
+.more>summary .icon{transition:transform .15s}
+.more[open]>summary .icon{transform:rotate(180deg)}
+.more .more-hide,.more[open] .more-show{display:none}
+.more[open] .more-hide{display:inline}
+.more-body{padding-top:6px}
+.more-body>.summarygrid{margin-top:8px}
+.more-body>.dc-panel:first-child{margin-top:8px}
+.innate-card .more-body p{margin:0 0 8px}
