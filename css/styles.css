@@ -268,9 +268,9 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .qty-badge{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:var(--gold-soft);border:1px solid var(--gold-line);color:var(--gold-ink);font-size:13px;font-weight:600;vertical-align:1px}
 @media (max-width:420px){.spellrow.has-qty{grid-template-columns:minmax(0,1fr) auto 36px}.spellrow.has-qty>div:first-child{display:none}.qty-btn{width:30px;height:30px}.qty-n{min-width:24px}}
 /* Spell card controls: labelled Prepared stepper with the Used control (toggle for one copy, stepper for several) beside it */
-.detail-controls{display:flex;flex-wrap:wrap;gap:12px 16px;margin:16px 0 0}
-.detail-controls .ctl{min-width:140px}
-.detail-controls .qty{display:flex;justify-content:space-between}
+.detail-controls{display:flex;align-items:flex-start;gap:14px;margin:16px 0 0}
+.detail-controls .ctl{display:flex;flex-direction:column;align-items:center;gap:5px}
+.ctl-label{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* Prepared Today: read-only used count under the Prepared stepper, in the used color */
 .row-qty{display:flex;flex-direction:column;align-items:center;gap:4px}
 .used-count{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -297,11 +297,10 @@ html.scroll-locked,html.scroll-locked body{overflow:hidden}
 /* Keep the Mark used button the same height as the steppers, which shrink to 30px buttons on small phones */
 @media (max-width:420px){.cast-toggle{min-height:36px}}
 /* Prepared Today: New day reset right above the spell list */
-.newday-row{display:flex;justify-content:flex-end}
+.newday-row{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px}
 .newday-row .action{display:inline-flex;align-items:center;gap:6px}
 /* Spell card: Use spell button, used count and Undo */
 .use-row{display:flex;align-items:center;gap:10px}
-.use-row .used-count{font-size:15px}
 .undo-btn{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink-2);cursor:pointer}
 .undo-btn:hover:not(:disabled){background:var(--surface-2)}
 .undo-btn:disabled{opacity:.35;cursor:default}
