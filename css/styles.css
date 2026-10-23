@@ -271,10 +271,10 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .detail-controls{display:flex;flex-wrap:wrap;gap:12px 16px;margin:16px 0 0}
 .detail-controls .ctl{min-width:140px}
 .detail-controls .qty{display:flex;justify-content:space-between}
-/* Read-only used counter next to the spell name on Prepared Today */
-.used-chip{display:inline-flex;align-items:center;gap:4px;margin-left:4px;padding:1px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12.5px;font-weight:600;letter-spacing:.02em;white-space:nowrap;vertical-align:2px;text-decoration:none;font-variant-numeric:tabular-nums}
-.used-chip.some{border-color:var(--used-line);background:var(--used-soft);color:var(--used)}
-.used-chip.spent{border-color:var(--used);background:var(--used);color:var(--bg)}
+/* Prepared Today: read-only used count under the Prepared stepper, in the used color */
+.row-qty{display:flex;flex-direction:column;align-items:center;gap:4px}
+.used-count{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.used-count.some{color:var(--used)}
 .cast-toggle{display:flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 12px;border:1px solid var(--used-line);border-radius:999px;background:var(--used-soft);color:var(--used);font-family:inherit;font-size:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
 .cast-toggle .icon{opacity:.4}
 .cast-toggle:hover{background:var(--surface-2)}
@@ -289,7 +289,6 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .ctl-used .ctl-label{color:var(--used)}
 .ctl:not(.ctl-used) .ctl-label{color:var(--gold-ink)}
 .spellrow.spent .spellname{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px}
-.spellrow.spent .spellname .used-chip{text-decoration:none}
 /* Scroll lock while the spell sheet or mobile drawer is open */
 html.scroll-locked,html.scroll-locked body{overflow:hidden}
 .sheet,.mobile-tools-drawer{overscroll-behavior:contain}
