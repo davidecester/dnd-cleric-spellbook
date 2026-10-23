@@ -267,11 +267,14 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .badge[data-dom]{color:var(--dom);border-color:color-mix(in srgb,var(--dom) 45%,transparent);background:color-mix(in srgb,var(--dom) 13%,transparent)}
 .qty-badge{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:var(--gold-soft);border:1px solid var(--gold-line);color:var(--gold-ink);font-size:13px;font-weight:600;vertical-align:1px}
 @media (max-width:420px){.spellrow.has-qty{grid-template-columns:minmax(0,1fr) auto 36px}.spellrow.has-qty>div:first-child{display:none}.qty-btn{width:30px;height:30px}.qty-n{min-width:24px}}
-/* Prepared Today controls: labelled Prepared stepper with the Used control (toggle for one copy, stepper for several) below it */
-.row-controls{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:124px}
-.ctl{display:flex;flex-direction:column;gap:3px}
-.ctl-label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-left:4px;font-variant-numeric:tabular-nums}
-.row-controls .qty{display:flex;justify-content:space-between}
+/* Spell card controls: labelled Prepared stepper with the Used control (toggle for one copy, stepper for several) beside it */
+.detail-controls{display:flex;flex-wrap:wrap;gap:12px 16px;margin:16px 0 0}
+.detail-controls .ctl{min-width:140px}
+.detail-controls .qty{display:flex;justify-content:space-between}
+/* Prepared Today: read-only used count under the Prepared stepper, in the used color */
+.row-qty{display:flex;flex-direction:column;align-items:center;gap:4px}
+.used-count{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.used-count.some{color:var(--used)}
 .cast-toggle{display:flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 12px;border:1px solid var(--used-line);border-radius:999px;background:var(--used-soft);color:var(--used);font-family:inherit;font-size:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
 .cast-toggle .icon{opacity:.4}
 .cast-toggle:hover{background:var(--surface-2)}
@@ -285,7 +288,14 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .cast-toggle:focus-visible,.cast-qty .qty-btn:focus-visible{outline:2px solid var(--used);outline-offset:2px}
 .ctl-used .ctl-label{color:var(--used)}
 .ctl:not(.ctl-used) .ctl-label{color:var(--gold-ink)}
-.spellrow.spent .spellname{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px}
+/* Fully used spells look deactivated but stay clickable, so the card can still be opened to unmark a mistake */
+.spellrow.spent>*:not(.star){opacity:.45;filter:grayscale(.6)}
+.spellrow.spent{background:color-mix(in srgb,var(--bg) 35%,transparent)}
+.spellrow.spent.domain-row::before{opacity:.45}
+.spellrow.spent:hover>*:not(.star){opacity:.7}
+/* Scroll lock while the spell sheet or mobile drawer is open */
+html.scroll-locked,html.scroll-locked body{overflow:hidden}
+.sheet,.mobile-tools-drawer{overscroll-behavior:contain}
 .slotcard .slot-sub{font-size:13.5px;margin-top:2px}
 .slotcard.spent{opacity:.6}
 .slotcard .used.empty-level{font-size:16px;color:var(--muted)}
