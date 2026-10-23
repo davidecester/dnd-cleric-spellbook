@@ -281,7 +281,8 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .used-count{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .used-count.some{color:var(--used)}
 .cast-toggle{display:flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 12px;border:1px solid var(--used-line);border-radius:999px;background:var(--used-soft);color:var(--used);font-family:inherit;font-size:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
-.cast-toggle .icon{opacity:.4}
+/* The check glyph starts ~3px inside its 14px box; pull it left so the visible gaps on both sides match */
+.cast-toggle .icon{opacity:.4;margin-left:-3px}
 .cast-toggle:hover{background:var(--surface-2)}
 .cast-toggle.used{background:var(--used);border-color:var(--used);color:var(--bg)}
 .cast-toggle.used .icon{opacity:1}
