@@ -288,7 +288,11 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .cast-toggle:focus-visible,.cast-qty .qty-btn:focus-visible{outline:2px solid var(--used);outline-offset:2px}
 .ctl-used .ctl-label{color:var(--used)}
 .ctl:not(.ctl-used) .ctl-label{color:var(--gold-ink)}
-.spellrow.spent .spellname{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px}
+/* Fully used spells look deactivated but stay clickable, so the card can still be opened to unmark a mistake */
+.spellrow.spent>*:not(.star){opacity:.45;filter:grayscale(.6)}
+.spellrow.spent{background:color-mix(in srgb,var(--bg) 35%,transparent)}
+.spellrow.spent.domain-row::before{opacity:.45}
+.spellrow.spent:hover>*:not(.star){opacity:.7}
 /* Scroll lock while the spell sheet or mobile drawer is open */
 html.scroll-locked,html.scroll-locked body{overflow:hidden}
 .sheet,.mobile-tools-drawer{overscroll-behavior:contain}
