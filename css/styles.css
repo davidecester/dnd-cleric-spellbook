@@ -269,7 +269,7 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 @media (max-width:420px){.spellrow.has-qty{grid-template-columns:minmax(0,1fr) auto 36px}.spellrow.has-qty>div:first-child{display:none}.qty-btn{width:30px;height:30px}.qty-n{min-width:24px}}
 /* Spell card controls: labelled Prepared stepper with the Used control (toggle for one copy, stepper for several) beside it */
 .detail-controls{display:flex;align-items:flex-start;gap:14px;margin:16px 0 0}
-.detail-controls .ctl{display:flex;flex-direction:column;align-items:stretch;gap:5px}
+.detail-controls .ctl{display:flex;flex-direction:column;align-items:stretch;gap:5px;flex:0 0 auto}
 .detail-controls .ctl-label{padding:0 4px}
 .ctl-head{display:flex;justify-content:space-between;gap:12px}
 .ctl-label{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -303,8 +303,6 @@ html.scroll-locked,html.scroll-locked body{overflow:hidden}
 .newday-row .action{display:inline-flex;align-items:center;gap:6px}
 /* Spell card: Use spell button, used count and Undo */
 .use-row{display:flex;align-items:center;gap:10px}
-.undo-btn{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink-2);cursor:pointer}
-.undo-btn:hover:not(:disabled){background:var(--surface-2)}
-.undo-btn:disabled{opacity:.35;cursor:default}
-.undo-btn:focus-visible{outline:2px solid var(--used);outline-offset:2px}
+.undo-use{display:inline-flex;align-items:center;gap:6px}
+.undo-use:disabled{opacity:.4;cursor:default}
 .cast-toggle:disabled{cursor:default}
