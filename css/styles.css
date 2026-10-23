@@ -268,11 +268,14 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .qty-badge{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:var(--gold-soft);border:1px solid var(--gold-line);color:var(--gold-ink);font-size:13px;font-weight:600;vertical-align:1px}
 @media (max-width:420px){.spellrow.has-qty{grid-template-columns:minmax(0,1fr) auto 36px}.spellrow.has-qty>div:first-child{display:none}.qty-btn{width:30px;height:30px}.qty-n{min-width:24px}}
 /* Spell card controls: labelled Prepared stepper with the Used control (toggle for one copy, stepper for several) beside it */
-.detail-controls{display:flex;align-items:flex-start;gap:14px;margin:16px 0 0}
+.detail-controls{display:flex;align-items:flex-start;gap:16px;margin:18px 0 24px}
+.detail-controls+.actionrow{margin-top:0}
+.ctl-used{min-width:150px}
+.ctl-used .cast-toggle{width:100%}
 .detail-controls .ctl{display:flex;flex-direction:column;align-items:stretch;gap:5px;flex:0 0 auto}
 .detail-controls .ctl-label{padding:0 4px}
-.ctl-head{display:flex;justify-content:space-between;gap:12px}
-.ctl-label{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ctl-head{display:flex;justify-content:space-between;gap:20px}
+.ctl-label{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* Prepared Today: read-only used count under the Prepared stepper, in the used color */
 .row-qty{display:flex;flex-direction:column;align-items:center;gap:4px}
 .used-count{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
