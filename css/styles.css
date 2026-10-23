@@ -280,12 +280,7 @@ h1,h2,h3,.levelhead strong,.summarycard b,.dc-item b,.slotcard .used{font-weight
 .cast-toggle:hover{background:var(--surface-2)}
 .cast-toggle.used{background:var(--used);border-color:var(--used);color:var(--bg)}
 .cast-toggle.used .icon{opacity:1}
-.cast-qty{border-color:var(--used-line);background:var(--used-soft)}
-.cast-qty .qty-btn,.cast-qty .qty-n{color:var(--used)}
-.cast-qty.used{background:var(--used);border-color:var(--used)}
-.cast-qty.used .qty-n,.cast-qty.used .qty-btn:not(:disabled){color:var(--bg)}
-.cast-qty.used .qty-btn:disabled{color:var(--bg);opacity:.35}
-.cast-toggle:focus-visible,.cast-qty .qty-btn:focus-visible{outline:2px solid var(--used);outline-offset:2px}
+.cast-toggle:focus-visible{outline:2px solid var(--used);outline-offset:2px}
 .ctl-used .ctl-label{color:var(--used)}
 .ctl:not(.ctl-used) .ctl-label{color:var(--gold-ink)}
 /* Fully used spells look deactivated but stay clickable, so the card can still be opened to unmark a mistake */
@@ -301,7 +296,14 @@ html.scroll-locked,html.scroll-locked body{overflow:hidden}
 .slotcard .used.empty-level{font-size:16px;color:var(--muted)}
 /* Keep the Mark used button the same height as the steppers, which shrink to 30px buttons on small phones */
 @media (max-width:420px){.cast-toggle{min-height:36px}}
-/* Prepared Today: spells-left line with the New day reset, right above the spell list */
-.cast-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px 12px 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);color:var(--ink-2)}
-.cast-bar b{color:var(--used);font-variant-numeric:tabular-nums}
-.cast-bar .action{display:inline-flex;align-items:center;gap:6px}
+/* Prepared Today: New day reset right above the spell list */
+.newday-row{display:flex;justify-content:flex-end}
+.newday-row .action{display:inline-flex;align-items:center;gap:6px}
+/* Spell card: Use spell button, used count and Undo */
+.use-row{display:flex;align-items:center;gap:10px}
+.use-row .used-count{font-size:15px}
+.undo-btn{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink-2);cursor:pointer}
+.undo-btn:hover:not(:disabled){background:var(--surface-2)}
+.undo-btn:disabled{opacity:.35;cursor:default}
+.undo-btn:focus-visible{outline:2px solid var(--used);outline-offset:2px}
+.cast-toggle:disabled{cursor:default}
