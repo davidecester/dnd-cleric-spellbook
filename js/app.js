@@ -424,8 +424,8 @@ function usedCountHTML(s){const n=preparedCount(s),c=castCount(s);return `<span 
 function useControlHTML(s){const n=preparedCount(s),c=castCount(s);return `<div class="use-row"><button type="button" class="cast-toggle${c>=n?" used":""}" data-cast="1" ${c<n?"":"disabled"} aria-label="Use ${esc(s.n)}">${icon("check",14)}<span>${c<n?"Use spell":"All used"}</span></button><button type="button" class="undo-btn" data-cast="-1" ${c?"":"disabled"} aria-label="Undo one use of ${esc(s.n)}" title="Undo one use">${icon("reset")}</button></div>`;}
 // Prepared Today list: the Prepared stepper with a read-only used count under it; the Use spell button lives in the spell card
 function rowQtyHTML(s){return `<div class="row-qty">${qtyStepperHTML(s)}${usedCountHTML(s)}</div>`;}
-// Spell card: Prepared stepper and Use spell on one row, each with its label under it (the used count under Use spell)
-function detailControlsHTML(s){return `<div class="detail-controls"><div class="ctl">${qtyStepperHTML(s)}<span class="ctl-label">Prepared</span></div><div class="ctl ctl-used">${useControlHTML(s)}${usedCountHTML(s)}</div></div>`;}
+// Spell card: Prepared stepper and Use spell on one row, labels above; the Used label has the "c of n" use count at its other end
+function detailControlsHTML(s){return `<div class="detail-controls"><div class="ctl"><span class="ctl-label">Prepared</span>${qtyStepperHTML(s)}</div><div class="ctl ctl-used"><div class="ctl-head"><span class="ctl-label">Used</span><span class="ctl-label use-count" aria-live="polite">${castCount(s)} of ${preparedCount(s)}</span></div>${useControlHTML(s)}</div></div>`;}
 function bindCast(node,s){node.querySelectorAll("[data-cast]").forEach(button=>button.onclick=event=>{event.stopPropagation();const a=button.dataset.cast;setCast(s,castCount(s)+(+a));});}
 function bindQty(node,s){node.querySelectorAll("[data-qty]").forEach(button=>button.onclick=event=>{event.stopPropagation();button.dataset.qty==="1"?addPrepared(s):removePrepared(s);});}
 function characterLevel(){return state.character.level;}
