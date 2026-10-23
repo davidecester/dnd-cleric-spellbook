@@ -310,3 +310,8 @@ html.scroll-locked,html.scroll-locked body{overflow:hidden}
 .undo-use{display:inline-flex;align-items:center;gap:6px}
 .undo-use:disabled{opacity:.4;cursor:default}
 .cast-toggle:disabled{cursor:default}
+.today-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;margin:40px 0 12px;padding-top:22px;border-top:1px solid var(--line)}
+.today .today-head h3,section .today-head h3{font-size:24px;margin:0}
+.today-sub{color:var(--muted);margin:-4px 0 14px;font-size:15px}
+.today-head+.level,.today-head+.empty{margin-top:0}
+#todayInnate>.slotgrid:last-child,#todayDomain>.slotgrid:last-child{margin-bottom:0}
