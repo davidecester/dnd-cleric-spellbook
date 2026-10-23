@@ -301,3 +301,7 @@ html.scroll-locked,html.scroll-locked body{overflow:hidden}
 .slotcard .used.empty-level{font-size:16px;color:var(--muted)}
 /* Keep the Mark used button the same height as the steppers, which shrink to 30px buttons on small phones */
 @media (max-width:420px){.cast-toggle{min-height:36px}}
+/* Prepared Today: spells-left line with the New day reset, right above the spell list */
+.cast-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px 12px 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);color:var(--ink-2)}
+.cast-bar b{color:var(--used);font-variant-numeric:tabular-nums}
+.cast-bar .action{display:inline-flex;align-items:center;gap:6px}
