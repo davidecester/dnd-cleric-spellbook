@@ -11,9 +11,10 @@ Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric; default d
 ## Git workflow
 
 - Never commit directly to `main`.
-- Put each update on a feature branch (use the branch the session assigns, e.g. `claude/...`) and push it.
-- Open a pull request into `main` for every update. If an open PR already exists for the branch, add the new commits to it and update its title/description to cover everything in it.
-- If the branch's PR has already been merged, restart the branch from the latest `main` and open a new PR. Don't reuse a merged PR.
+- Start a new branch from the latest `main` for each update the user asks for, named after the update (e.g. `claude/prepared-show-more`). Don't reuse an old branch for unrelated work.
+- Open a pull request into `main` for every update. While the update is still in progress, add new commits to the same branch and PR and keep its title/description covering everything in it.
+- Once the PR is merged, delete its branch on GitHub (`git push origin --delete <branch>`) and locally. The next update gets a new branch.
+- Keep a branch only when the user says so: an update they don't want merged, one they want to keep for a later decision, or one exploring a different direction. Say in the PR which of these it is.
 - Write commit messages that state exactly what changed (e.g. which values were corrected).
 
 ## Checks before every commit
