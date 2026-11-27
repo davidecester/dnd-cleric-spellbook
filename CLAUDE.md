@@ -11,15 +11,10 @@ Standalone D&D 3.5 Cleric spellbook for Caelian Vàel (Aasimar cleric; default d
 ## Git workflow
 
 - Never commit directly to `main`.
-- Start a new branch from the latest `main` for each update the user asks for, named after the update (e.g. `claude/prepared-show-more`). Don't reuse an old branch for unrelated work.
+- Start a new branch from the latest `main` for each update the user asks for. Give it a clear name from the start that says what the change is, so it never needs renaming (cloud sessions can't rename branches). Use `claude/` plus a few words in kebab-case, e.g. `claude/prepared-show-more`, `claude/nature-domain-spells`. Avoid vague names like `claude/fix` or `claude/update-2`, and don't reuse an old branch for unrelated work.
 - Open a pull request into `main` for every update. While the update is still in progress, add new commits to the same branch and PR and keep its title/description covering everything in it.
 - Once the PR is merged, its branch is deleted. GitHub does this when the repo setting "Automatically delete head branches" is on. Otherwise delete it (`git push origin --delete <branch>`). If that's refused (cloud sessions may not be allowed to delete branches), tell the user which branch is left. Delete the local branch too. The next update gets a new branch.
-- Keep a branch only when the user says so. Name a kept branch so its purpose is clear from the name alone:
-  - `claude/hold-<topic>`: an update the user doesn't want merged.
-  - `claude/later-<topic>`: kept for a later decision.
-  - `claude/explore-<topic>`: exploring a different direction.
-  - `<topic>` is a few words in kebab-case naming the change, e.g. `claude/explore-card-layout`. Say in the PR which kind it is and why it's kept.
-  - If the user decides to keep it only after the branch exists, ask them to rename it on GitHub's Branches page (pencil icon). That keeps the PR attached, and cloud sessions may not be able to delete the old name.
+- Keep a branch only when the user says so: an update they don't want merged, one kept for a later decision, or one exploring a different direction. It keeps its original name. Say in its PR which of these it is and why it's kept.
 - Write commit messages that state exactly what changed (e.g. which values were corrected).
 
 ## Checks before every commit
